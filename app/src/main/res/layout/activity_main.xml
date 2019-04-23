@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:layout_marginBottom="1dp"
+        android:id="@+id/toolbar_home"
+        app:title="Available Jobs"
+        app:titleTextColor="#fff"
+        >
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:id="@+id/tv_toolbarTitle"-->
+            <!--android:textColor="#fff"-->
+            <!--android:textSize="18dp"-->
+            <!--android:text="Available Jobs"-->
+            <!--android:paddingLeft="5dp"-->
+            <!--android:textAllCaps="false"-->
+            <!--/>-->
+    </android.support.v7.widget.Toolbar>
+
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="56dp"
+        android:text="home"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_below="@+id/toolbar_home"/>
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/bottom_nav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimary"
+        app:itemBackground="@android:color/transparent"
+        app:itemIconTint="@drawable/my_navigation_items"
+        app:itemTextColor="@drawable/my_navigation_items"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:menu="@menu/bottombar_menu"
+        app:labelVisibilityMode="labeled"/>
+</RelativeLayout>

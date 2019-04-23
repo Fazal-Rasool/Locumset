@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:card_view="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    tools:context=".Splash"
+    android:padding="5dp"
+    android:background="#fff">
+
+
+    <!--<android.support.v7.widget.CardView-->
+        <!--android:id="@+id/card_view"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@+id/view"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:paddingBottom="0dp"-->
+        <!--card_view:cardBackgroundColor="@android:color/white"-->
+        <!--card_view:cardCornerRadius="10dp"-->
+        <!--card_view:cardElevation="1dp"-->
+        <!--card_view:cardUseCompatPadding="true">-->
+
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="vertical">-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/border_my_shift"
+        android:weightSum="10"
+        style="@style/CustomShadow"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:weightSum="2"
+            android:layout_gravity="center">
+
+            <TextView
+                android:id="@+id/tvRowJobsPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="$60"
+                android:textColor="@color/colorPrimary"
+                android:gravity="center"
+                android:textSize="20dp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Per Hour"
+                android:textColor="#000"
+                android:gravity="center"
+                android:textSize="8dp"
+                />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="6"
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            android:weightSum="3"
+            android:layout_marginTop="5dp">
+
+
+            <TextView
+                android:id="@+id/tvRowJobsGrade"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Middle Grade"
+                android:textColor="@color/colorPrimary"
+                android:gravity="left"
+                android:textSize="16dp"
+                android:visibility="visible"
+                android:textStyle="bold"
+                />
+
+
+
+            <TextView
+                android:id="@+id/tvRowJobsTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="SHO-On Call night shift"
+                android:textColor="#000"
+                android:gravity="left"
+                android:textSize="16dp"
+                android:textStyle="normal"
+                android:maxLines="1"
+                />
+
+            <TextView
+                android:id="@+id/tvRowJobsDep"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Orthopedic Surgery"
+                android:textColor="@color/colorPrimary"
+                android:gravity="left"
+                android:textSize="12dp"
+                android:maxLines="1"
+                />
+
+            <TextView
+                android:id="@+id/tvRowJobsHospitalName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Pool Hospital NHS Foundation Trust"
+                android:textColor="@android:color/darker_gray"
+                android:gravity="left"
+                android:textSize="10dp"
+                android:maxLines="1"
+                />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:weightSum="10">
+
+            <TextView
+                android:id="@+id/tvRowJobsDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Jan 16"
+                android:textColor="@color/colorPrimary"
+                android:gravity="center"
+                android:textSize="12dp"
+                android:maxLines="1"
+                />
+
+            <TextView
+                android:id="@+id/tvRowJobsDay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mon - Friday"
+                android:textColor="@android:color/black"
+                android:gravity="center"
+                android:textSize="12dp"
+                android:maxLines="1"
+                />
+
+
+            <TextView
+                android:id="@+id/tvRowJobsTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="8:00 - 21:00"
+                android:layout_below="@+id/button_login"
+                android:layout_centerInParent="true"
+                android:textColor="@color/colorPrimary"
+                android:gravity="center"
+                android:textSize="12dp"
+                android:maxLines="1"
+                />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!--<View-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="1dp"-->
+        <!--android:background="@android:color/darker_gray"-->
+        <!--/>-->
+
+        <!--</LinearLayout>-->
+    <!--</android.support.v7.widget.CardView>-->
+
+</LinearLayout>

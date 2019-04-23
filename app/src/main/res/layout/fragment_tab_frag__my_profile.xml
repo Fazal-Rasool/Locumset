@@ -1,0 +1,28 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.adaxiom.subFragments.TabFrag_MyProfile">
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabsMyProfile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#E5E3DF"
+        app:tabGravity="fill"
+        app:tabIndicatorColor="@color/colorPrimary"
+        app:tabMode="fixed"
+        app:tabSelectedTextColor="@color/colorPrimary"
+        app:tabTextColor="@color/dim_foreground_material_dark"/>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pagerMyProfile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tabsMyProfile">
+
+    </android.support.v4.view.ViewPager>
+
+
+</RelativeLayout>

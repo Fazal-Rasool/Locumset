@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "478006681436",
+    "firebase_url": "https://locumset.firebaseio.com",
+    "project_id": "locumset",
+    "storage_bucket": "locumset.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:478006681436:android:680cbdad92fd12d7",
+        "android_client_info": {
+          "package_name": "com.adaxiom.locumset"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "478006681436-a4m8k52rogvmrerdie6lcq7qq31mo4os.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.adaxiom.locumset",
+            "certificate_hash": "71f01b57a8ef305e353e9c066d29019e4a00f038"
+          }
+        },
+        {
+          "client_id": "478006681436-bhn340t0v6f0qmi4697c5vg0eo4s7k61.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDy3j03aecKxvG2LplPKlmCDsywXScw4MQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "478006681436-bhn340t0v6f0qmi4697c5vg0eo4s7k61.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

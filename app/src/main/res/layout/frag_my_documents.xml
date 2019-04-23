@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/swipeContainer"
+    tools:context=".Splash">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true"
+        android:padding="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <EditText
+            android:id="@+id/etMyDetailName"
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/border_et"
+            android:textColorHint="@android:color/darker_gray"
+            android:drawableRight="@drawable/ic_attach_file"
+            android:hint="Identity Proof"
+            android:maxLines="1"
+            android:inputType="text"
+            android:textSize="13dp"
+            android:padding="10dp"
+            android:clickable="false"
+            android:enabled="false"
+            />
+
+        <EditText
+            android:id="@+id/etMyDetailGmc"
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/border_et"
+            android:textColorHint="@android:color/darker_gray"
+            android:drawableRight="@drawable/ic_attach_file"
+            android:hint="Proof of Gmc resignation certificate"
+            android:maxLines="1"
+            android:inputType="text"
+            android:textSize="13dp"
+            android:layout_marginTop="10dp"
+            android:padding="10dp"
+            android:clickable="false"
+            android:enabled="false"
+            />
+
+
+        <EditText
+            android:id="@+id/etMyDetailEmail"
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/border_et"
+            android:textColorHint="@android:color/darker_gray"
+            android:drawableRight="@drawable/ic_attach_file"
+            android:hint="Proof of right to work in UK"
+            android:maxLines="1"
+            android:inputType="text"
+            android:textSize="13dp"
+            android:padding="10dp"
+            android:layout_marginTop="10dp"
+            android:clickable="false"
+            android:enabled="false"
+            />
+
+        <EditText
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/border_et"
+            android:textColorHint="@android:color/darker_gray"
+            android:drawableRight="@drawable/ic_attach_file"
+            android:hint="Disclousre baring certificate"
+            android:maxLines="1"
+            android:inputType="text"
+            android:textSize="13dp"
+            android:layout_marginTop="10dp"
+            android:padding="10dp"
+            android:clickable="false"
+            android:enabled="false"
+            />
+
+        <EditText
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/border_et"
+            android:textColorHint="@android:color/darker_gray"
+            android:drawableRight="@drawable/ic_attach_file"
+            android:hint="National insurance number"
+            android:maxLines="1"
+            android:inputType="text"
+            android:textSize="13dp"
+            android:layout_marginTop="10dp"
+            android:padding="10dp"
+            android:clickable="false"
+            android:enabled="false"
+            />
+
+
+        <EditText
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/border_et"
+            android:textColorHint="@android:color/darker_gray"
+            android:drawableRight="@drawable/ic_attach_file"
+            android:hint="Refrences"
+            android:maxLines="1"
+            android:inputType="text"
+            android:textSize="13dp"
+            android:layout_marginTop="10dp"
+            android:padding="10dp"
+            android:clickable="false"
+            android:enabled="false"
+            />
+
+
+        <EditText
+            android:id="@+id/etMyDetailPhone"
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/border_et"
+            android:textColorHint="@android:color/darker_gray"
+            android:drawableRight="@drawable/ic_attach_file"
+            android:hint="Certificate"
+            android:maxLines="1"
+            android:inputType="text"
+            android:textSize="13dp"
+            android:layout_marginTop="10dp"
+            android:padding="10dp"
+            android:clickable="false"
+            android:enabled="false"
+            />
+
+    </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>

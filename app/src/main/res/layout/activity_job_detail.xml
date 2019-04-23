@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".JobDetail">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        app:title="Job Detail"
+        app:titleTextColor="#fff"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="10dp"
+        android:weightSum="10"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            android:layout_weight="3.8"
+            android:gravity="center_vertical">
+
+
+            <TextView
+                android:id="@+id/tvDetailTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000"
+                android:text="SHO-On-Call night Shift"
+                android:textSize="20sp"
+                android:textStyle="normal"/>
+
+            <TextView
+                android:id="@+id/tvDetailPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#269fd9"
+                android:text="$60 Per Hour"
+                android:textSize="25sp"
+                android:textStyle="normal"/>
+            <TextView
+                android:id="@+id/tvDetailDep"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000"
+                android:text="Orthopedic Surgery"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
+            <TextView
+                android:id="@+id/tvDetailAdd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000"
+                android:text="Pool Hospital NHS Foundation Trust"
+                android:textSize="16sp"
+                android:textStyle="normal"/>
+
+            <TextView
+                android:id="@+id/tvDetailDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000"
+                android:text="Mon 21, Wednesday"
+                android:textSize="16sp"
+                android:textStyle="normal"/>
+            <TextView
+                android:id="@+id/tvDetailTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000"
+                android:text="20:00 - 8:00"
+                android:textSize="14sp"
+                android:textStyle="normal"/>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            android:layout_marginTop="10dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="5"
+            android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:text="Notes"
+            android:textSize="24sp"
+            android:textStyle="normal"/>
+
+        <TextView
+            android:id="@+id/tvDetailNotes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:text="In 1996, a small group of Pakistani doctors practicing in the United States held a retreat in Pennsylvania to discuss the creation of a new medical facility in Pakistan These doctors moved back to Pakistan and started to build the Doctors' Hospital and Medical Center]. Many colleagues of different specialties joined the core group and the hospital was established in 2000"
+            android:textSize="14sp"
+            android:textStyle="normal"/>
+
+        <CheckBox
+            android:id="@+id/cbAgree"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="To be eligible for this shift, you need to be permanent staff or a staff bank member of this hospital."
+            android:textSize="12dp"/>
+
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/btnDetailApply"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:background="@drawable/customborder_button_disable"
+            android:text="Apply"
+            android:textColor="#fff"
+            android:textSize="18dp"
+            android:clickable="false"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:padding="10dp"
+            android:background="#FFEFEBEB">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000"
+                android:text="Pool Hospital NHS Foundation Trust"
+                android:textSize="16sp"
+                android:textStyle="normal"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000"
+                android:text="Trauma and Orthopedic\nLong fleet road, BH-15 2 GN"
+                android:textSize="16sp"
+                android:textStyle="normal"/>
+
+            <TextView
+                android:id="@+id/tvDetailEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#269fd9"
+                android:text="Email : Janine.short@poole.nhs.uk"
+                android:textSize="16sp"
+                android:textStyle="normal"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000"
+                android:text="Phone No : 01202 442260"
+                android:textSize="16sp"
+                android:textStyle="normal"/>
+
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>
