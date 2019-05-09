@@ -12,16 +12,17 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.adaxiom.database.DatabaseHelper;
+import com.adaxiom.manager.DownloaderManager;
 import com.adaxiom.models.ModelLogin;
-import com.adaxiom.network.ApiClass;
-import com.adaxiom.network.CallInterface;
+import com.adaxiom.models.ModelRegister;
+import com.adaxiom.network.ApiCalls;
 import com.adaxiom.utils.SharedPrefrence;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import rx.Subscriber;
+import rx.Subscription;
+import rx.schedulers.Schedulers;
 
 /**
  * A login screen that offers login via email/password.
@@ -35,6 +36,8 @@ public class Login extends AppCompatActivity {
     String token = "";
 
     DatabaseHelper dbHelper;
+
+    private Subscription getSubscription;
 
 
     @Override
@@ -92,30 +95,67 @@ public class Login extends AppCompatActivity {
 
         if (email.getText().toString().equalsIgnoreCase("") || email.getText() == null) {
             email.setError("Missing field");
-        }else {
-            final ProgressDialog progressDialog = ProgressDialog.show(Login.this, "", " Please wait");
-            progressDialog.setCancelable(false);
+        } else {
 
-            CallInterface callInterface = ApiClass.getClient().create(CallInterface.class);
-            Call<ModelLogin> call = callInterface.ForgotPassword(email_str);
 
-            call.enqueue(new Callback<ModelLogin>() {
-                @Override
-                public void onResponse(Call<ModelLogin> call, Response<ModelLogin> response) {
-                    if (progressDialog.isShowing())
-                        progressDialog.dismiss();
-                    ModelLogin modelLogin = response.body();
-                    if (response.code() == 200) {
-                        Toast.makeText(Login.this, "Email sent successfully", Toast.LENGTH_SHORT).show();
-                    } else {
-                    }
-                }
+            if (getSubscription != null) {
+                return;
+            }
 
-                @Override
-                public void onFailure(Call<ModelLogin> call, Throwable t) {
-                    Toast.makeText(Login.this, "Response error!!!", Toast.LENGTH_SHORT).show();
-                }
-            });
+            getSubscription = DownloaderManager.getGeneralDownloader().ForgotPassword(email_str)
+                    .subscribeOn(Schedulers.newThread())
+                    .observeOn(Schedulers.newThread())
+                    .subscribe(new Subscriber<ModelLogin>() {
+                        @Override
+                        public void onCompleted() {
+
+                        }
+
+                        @Override
+                        public void onError(final Throwable e) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(Login.this, e.toString(), Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onNext(final ModelLogin modelRegister) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(Login.this, "Email sent successfully", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                    });
+
+
+//            final ProgressDialog progressDialog = ProgressDialog.show(Login.this, "", " Please wait");
+//            progressDialog.setCancelable(false);
+
+//            ApiCalls callInterface = ApiClass.getClient().create(ApiCalls.class);
+//            Call<ModelLogin> call = callInterface.ForgotPassword(email_str);
+//
+//            call.enqueue(new Callback<ModelLogin>() {
+//                @Override
+//                public void onResponse(Call<ModelLogin> call, Response<ModelLogin> response) {
+//                    if (progressDialog.isShowing())
+//                        progressDialog.dismiss();
+//                    ModelLogin modelLogin = response.body();
+//                    if (response.code() == 200) {
+//                        Toast.makeText(Login.this, "Email sent successfully", Toast.LENGTH_SHORT).show();
+//                    } else {
+//                    }
+//                }
+//
+//                @Override
+//                public void onFailure(Call<ModelLogin> call, Throwable t) {
+//                    Toast.makeText(Login.this, "Response error!!!", Toast.LENGTH_SHORT).show();
+//                }
+//            });
         }
 
 
@@ -135,41 +175,95 @@ public class Login extends AppCompatActivity {
             email_str = email.getText().toString();
             password_str = password.getText().toString();
 
+
+            if (getSubscription != null) {
+                return;
+            }
+
             final ProgressDialog progressDialog = ProgressDialog.show(Login.this, "", " Please wait");
             progressDialog.setCancelable(false);
 
-            CallInterface callInterface = ApiClass.getClient().create(CallInterface.class);
-            Call<ModelLogin> call = callInterface.LoginData(email_str, password_str, token);
+            getSubscription = DownloaderManager.getGeneralDownloader().LoginData(email_str, password_str, token)
+                    .subscribeOn(Schedulers.newThread())
+                    .observeOn(Schedulers.newThread())
+                    .subscribe(new Subscriber<ModelLogin>() {
+                        @Override
+                        public void onCompleted() {
 
-            call.enqueue(new Callback<ModelLogin>() {
-                @Override
-                public void onResponse(Call<ModelLogin> call, Response<ModelLogin> response) {
-                    if (progressDialog.isShowing())
-                        progressDialog.dismiss();
-                    ModelLogin modelLogin = response.body();
-                    if (!modelLogin.Error) {
+                        }
 
-                        SharedPrefrence.setUserId(Login.this, modelLogin.user_id);
-                        dbHelper.saveUser(modelLogin);
+                        @Override
+                        public void onError(final Throwable e) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    progressDialog.dismiss();
+                                    Toast.makeText(Login.this, e.toString(), Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        }
 
-                        Toast.makeText(Login.this, "Login Successful", Toast.LENGTH_SHORT).show();
+                        @Override
+                        public void onNext(final ModelLogin modelLogin) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    progressDialog.dismiss();
+                                    if (!modelLogin.Error) {
+                                        SharedPrefrence.setUserId(Login.this, modelLogin.user_id);
+                                        dbHelper.saveUser(modelLogin);
+
+                                        Toast.makeText(Login.this, "Login Successful", Toast.LENGTH_SHORT).show();
 //                        SharedPrefrenceStorage.INSTANCE.setIsLogin(Login.this, "1");
-                        SharedPrefrence.setIsLogin(Login.this, "1");
-                        Intent intent = new Intent(Login.this, MainActivity.class);
-                        startActivity(intent);
-                        Login.this.finish();
-                    } else {
-                        String message = modelLogin.Message;
-                        Toast.makeText(Login.this, message, Toast.LENGTH_SHORT).show();
-                    }
-                }
+                                        SharedPrefrence.setIsLogin(Login.this, "1");
+                                        Intent intent = new Intent(Login.this, MainActivity.class);
+                                        startActivity(intent);
+                                        Login.this.finish();
+                                    } else {
+                                        String message = modelLogin.Message;
+                                        Toast.makeText(Login.this, message, Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                        }
+                    });
 
-                @Override
-                public void onFailure(Call<ModelLogin> call, Throwable t) {
-                    Toast.makeText(Login.this, "Login failed", Toast.LENGTH_SHORT).show();
 
-                }
-            });
+//            final ProgressDialog progressDialog = ProgressDialog.show(Login.this, "", " Please wait");
+//            progressDialog.setCancelable(false);
+//
+//            ApiCalls callInterface = ApiClass.getClient().create(ApiCalls.class);
+//            Call<ModelLogin> call = callInterface.LoginData(email_str, password_str, token);
+//
+//            call.enqueue(new Callback<ModelLogin>() {
+//                @Override
+//                public void onResponse(Call<ModelLogin> call, Response<ModelLogin> response) {
+//                    if (progressDialog.isShowing())
+//                        progressDialog.dismiss();
+//                    ModelLogin modelLogin = response.body();
+//                    if (!modelLogin.Error) {
+//
+//                        SharedPrefrence.setUserId(Login.this, modelLogin.user_id);
+//                        dbHelper.saveUser(modelLogin);
+//
+//                        Toast.makeText(Login.this, "Login Successful", Toast.LENGTH_SHORT).show();
+////                        SharedPrefrenceStorage.INSTANCE.setIsLogin(Login.this, "1");
+//                        SharedPrefrence.setIsLogin(Login.this, "1");
+//                        Intent intent = new Intent(Login.this, MainActivity.class);
+//                        startActivity(intent);
+//                        Login.this.finish();
+//                    } else {
+//                        String message = modelLogin.Message;
+//                        Toast.makeText(Login.this, message, Toast.LENGTH_SHORT).show();
+//                    }
+//                }
+//
+//                @Override
+//                public void onFailure(Call<ModelLogin> call, Throwable t) {
+//                    Toast.makeText(Login.this, "Login failed", Toast.LENGTH_SHORT).show();
+//
+//                }
+//            });
         }
 
 
