@@ -13,11 +13,9 @@ import android.widget.Toast;
 import com.adaxiom.database.DatabaseHelper;
 import com.adaxiom.fragments.FragMyProfile;
 import com.adaxiom.locumset.R;
-import com.adaxiom.locumset.Register;
 import com.adaxiom.models.ModelRegister;
 import com.adaxiom.models.ModelUser;
-import com.adaxiom.network.ApiClass;
-import com.adaxiom.network.CallInterface;
+import com.adaxiom.network.ApiCalls;
 import com.adaxiom.utils.SharedPrefrence;
 
 import java.io.File;
@@ -25,9 +23,6 @@ import java.io.File;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 
 public class FragSettings extends Fragment {
@@ -137,29 +132,29 @@ public class FragSettings extends Fragment {
 
 
 
-        CallInterface callInterface = ApiClass.getClient().create(CallInterface.class);
-        Call<ModelRegister> call = callInterface.UpdateMyProfile(userId, phone, body);
-
-        call.enqueue(new Callback<ModelRegister>() {
-            @Override
-            public void onResponse(Call<ModelRegister> call, Response<ModelRegister> response) {
-                if (progressDialog.isShowing())
-                    progressDialog.dismiss();
-                if(response.code() == 200) {
-                    ModelRegister modelRegister = response.body();
-                    Toast.makeText(getActivity(), modelRegister.message, Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(getActivity(), "Bad Request Error!!!", Toast.LENGTH_SHORT).show();
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<ModelRegister> call, Throwable t) {
-                Toast.makeText(getActivity(), "Error while update profile", Toast.LENGTH_SHORT).show();
-
-            }
-        });
+//        ApiCalls callInterface = ApiClass.getClient().create(ApiCalls.class);
+//        Call<ModelRegister> call = callInterface.UpdateMyProfile(userId, phone, body);
+//
+//        call.enqueue(new Callback<ModelRegister>() {
+//            @Override
+//            public void onResponse(Call<ModelRegister> call, Response<ModelRegister> response) {
+//                if (progressDialog.isShowing())
+//                    progressDialog.dismiss();
+//                if(response.code() == 200) {
+//                    ModelRegister modelRegister = response.body();
+//                    Toast.makeText(getActivity(), modelRegister.message, Toast.LENGTH_SHORT).show();
+//                }else{
+//                    Toast.makeText(getActivity(), "Bad Request Error!!!", Toast.LENGTH_SHORT).show();
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ModelRegister> call, Throwable t) {
+//                Toast.makeText(getActivity(), "Error while update profile", Toast.LENGTH_SHORT).show();
+//
+//            }
+//        });
     }
 
 

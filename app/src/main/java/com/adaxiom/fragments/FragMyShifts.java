@@ -17,17 +17,19 @@ import android.widget.Toast;
 import com.adaxiom.adapters.RA_MyShifts;
 import com.adaxiom.locumset.JobDetail;
 import com.adaxiom.locumset.R;
+import com.adaxiom.manager.DownloaderManager;
+import com.adaxiom.models.ModelJobList;
 import com.adaxiom.models.ModelMyShifts;
-import com.adaxiom.network.ApiClass;
-import com.adaxiom.network.CallInterface;
+import com.adaxiom.network.ApiCalls;
 import com.adaxiom.utils.SharedPrefrence;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+
+import rx.Subscriber;
+import rx.Subscription;
+import rx.schedulers.Schedulers;
 
 
 public class FragMyShifts extends Fragment {
@@ -43,6 +45,8 @@ public class FragMyShifts extends Fragment {
     SwipeRefreshLayout swipeContainer;
 
     SearchView searchViewShop;
+
+    private Subscription getSubscription;
 
 
     @Override
@@ -138,43 +142,85 @@ public class FragMyShifts extends Fragment {
 
     public void API_GetJobsLis() {
 
-        swipeContainer.setRefreshing(true);
+//        swipeContainer.setRefreshing(true);
 
-        final ProgressDialog progressDialog = ProgressDialog.show(getActivity(), "", " Please wait");
-        progressDialog.setCancelable(false);
+//        final ProgressDialog progressDialog = ProgressDialog.show(getActivity(), "", " Please wait");
+//        progressDialog.setCancelable(false);
 
         int userId = SharedPrefrence.getUserId(getActivity());
 
-        CallInterface callInterface = ApiClass.getClient().create(CallInterface.class);
-        Call<List<ModelMyShifts>> call = callInterface.GetAppliedJobs(userId);
+        if (getSubscription != null) {
+            return;
+        }
 
-        call.enqueue(new Callback<List<ModelMyShifts>>() {
-            @Override
-            public void onResponse(Call<List<ModelMyShifts>> call, Response<List<ModelMyShifts>> response) {
-                if (progressDialog.isShowing())
-                    progressDialog.dismiss();
+        getSubscription = DownloaderManager.getGeneralDownloader().GetAppliedJobs(userId)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(Schedulers.newThread())
+                .subscribe(new Subscriber<List<ModelMyShifts>>() {
+                    @Override
+                    public void onCompleted() {
 
-                swipeContainer.setRefreshing(false);
-
-                if (response.code() == 200) {
-                    listHome = response.body();
-                    if (listHome.size() != 0) {
-                        setAdapter();
-//                    Toast.makeText(getActivity(), "Data Found", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(getActivity(), "No data found", Toast.LENGTH_SHORT).show();
                     }
-                } else {
-                    Toast.makeText(getActivity(), "Bad request!!!", Toast.LENGTH_SHORT).show();
-                }
-            }
 
-            @Override
-            public void onFailure(Call<List<ModelMyShifts>> call, Throwable t) {
-                Toast.makeText(getActivity(), "Error while fetching jobs from server", Toast.LENGTH_SHORT).show();
+                    @Override
+                    public void onError(final Throwable e) {
 
-            }
-        });
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onNext(final List<ModelMyShifts> listJob) {
+                        listHome.addAll(listJob);
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (listHome.size() != 0) {
+                                    setAdapter();
+//                    Toast.makeText(getActivity(), "Data Found", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(getActivity(), "No data found", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                    }
+                });
+
+
+//        ApiCalls callInterface = ApiClass.getClient().create(ApiCalls.class);
+//        Call<List<ModelMyShifts>> call = callInterface.GetAppliedJobs(userId);
+//
+//        call.enqueue(new Callback<List<ModelMyShifts>>() {
+//            @Override
+//            public void onResponse(Call<List<ModelMyShifts>> call, Response<List<ModelMyShifts>> response) {
+//                if (progressDialog.isShowing())
+//                    progressDialog.dismiss();
+//
+//                swipeContainer.setRefreshing(false);
+//
+//                if (response.code() == 200) {
+//                    listHome = response.body();
+//                    if (listHome.size() != 0) {
+//                        setAdapter();
+////                    Toast.makeText(getActivity(), "Data Found", Toast.LENGTH_SHORT).show();
+//                    } else {
+//                        Toast.makeText(getActivity(), "No data found", Toast.LENGTH_SHORT).show();
+//                    }
+//                } else {
+//                    Toast.makeText(getActivity(), "Bad request!!!", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<ModelMyShifts>> call, Throwable t) {
+//                Toast.makeText(getActivity(), "Error while fetching jobs from server", Toast.LENGTH_SHORT).show();
+//
+//            }
+//        });
     }
 
     public static void doSearch(int query) {

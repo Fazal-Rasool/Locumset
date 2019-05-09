@@ -63,8 +63,11 @@ public class RA_Home extends RecyclerView.Adapter<RA_Home.ViewHolder> {
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
 
-        Date fromDate = parseDate(list.get(position).from_date);
-        Date toDate = parseDate(list.get(position).to_date);
+        Date fromDate=null, toDate=null;
+        if(list.get(position).from_date != null){
+         fromDate = parseDate(list.get(position).from_date);}
+        if(list.get(position).to_date != null){
+        toDate = parseDate(list.get(position).to_date);}
         String startTime = parseTime(list.get(position).start_time);
         String endTime = parseTime(list.get(position).end_time);
         String f_Day = "", f_dayNum = "", f_mnth = "", t_Day = "", t_dayNum = "", t_mnth = "" ;

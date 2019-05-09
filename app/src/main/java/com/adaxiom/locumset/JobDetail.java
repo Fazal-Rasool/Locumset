@@ -24,18 +24,20 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.adaxiom.manager.DownloaderManager;
 import com.adaxiom.models.ModelJobApply;
-import com.adaxiom.network.ApiClass;
-import com.adaxiom.network.CallInterface;
+import com.adaxiom.models.ModelLogin;
+import com.adaxiom.network.ApiCalls;
 import com.adaxiom.utils.SharedPrefrence;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import rx.Subscriber;
+import rx.Subscription;
+import rx.schedulers.Schedulers;
+
 
 public class JobDetail extends AppCompatActivity {
 
@@ -45,11 +47,13 @@ public class JobDetail extends AppCompatActivity {
     String strTitle, strPrice, strDep, strAdd, strFromDate,
             strStartTime, strJobId, strNote, strEndTime, strFlag,
             strToDate, strPayGrade, strGrade, strEmail, strPhone;
-    int jobId = 0, intStatus=0;
+    int jobId = 0, intStatus = 0;
     Toolbar toolbar;
     CheckBox cbCheck;
     Button btnApply, btnCancel;
     View viewPayScale;
+
+    private Subscription getSubscription;
 
     private static final int PERMISSION_REQUEST_CODE = 300;
 
@@ -83,10 +87,7 @@ public class JobDetail extends AppCompatActivity {
         strGrade = getIntent().getStringExtra("Grade");
         strEmail = getIntent().getStringExtra("Email");
         strPhone = getIntent().getStringExtra("Phone");
-        intStatus = getIntent().getIntExtra("status",0);
-
-
-
+        intStatus = getIntent().getIntExtra("status", 0);
 
 
         setViews();
@@ -112,7 +113,7 @@ public class JobDetail extends AppCompatActivity {
         tvTime = (EditText) findViewById(R.id.tvDetailTime);
         tvNote = (TextView) findViewById(R.id.tvDetailNotes);
         btnApply = (Button) findViewById(R.id.btnDetailApply);
-        btnCancel= (Button) findViewById(R.id.btnDetailCancel);
+        btnCancel = (Button) findViewById(R.id.btnDetailCancel);
         tvDateBanner = (TextView) findViewById(R.id.tvDateBanner);
         tvEmail = (TextView) findViewById(R.id.tvDetailEmail);
         tvPhone = (TextView) findViewById(R.id.tvDetailPhone);
@@ -129,9 +130,9 @@ public class JobDetail extends AppCompatActivity {
         tvAdd.setText(strAdd);
         String newFromDate = parseDateInFormat(strFromDate);
         String newToDate = parseDateInFormat(strToDate);
-        tvDate.setText(newFromDate + " to " +newToDate);
-        tvTime.setText(strStartTime+" - "+strEndTime);
-        tvPayGrade.setText("£" +strPayGrade);
+        tvDate.setText(newFromDate + " to " + newToDate);
+        tvTime.setText(strStartTime + " - " + strEndTime);
+        tvPayGrade.setText("£" + strPayGrade);
         tvGrade.setText(strGrade);
         tvNote.setText(strNote);
         tvEmail.setText(strEmail);
@@ -139,25 +140,25 @@ public class JobDetail extends AppCompatActivity {
         parseDate(strFromDate);
 
 
-        if(strFlag.equalsIgnoreCase("1")){
+        if (strFlag.equalsIgnoreCase("1")) {
             btnApply.setVisibility(View.VISIBLE);
             btnCancel.setVisibility(View.GONE);
-        }else{
+        } else {
             btnApply.setVisibility(View.GONE);
             btnCancel.setVisibility(View.VISIBLE);
         }
 
 
-        if(strPayGrade.equalsIgnoreCase("")){
+        if (strPayGrade.equalsIgnoreCase("")) {
             viewPayScale.setVisibility(View.GONE);
-        }else{
+        } else {
             viewPayScale.setVisibility(View.VISIBLE);
         }
 
     }
 
 
-    public void setListeners(){
+    public void setListeners() {
 
         btnApply.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -169,11 +170,11 @@ public class JobDetail extends AppCompatActivity {
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(intStatus==0){
+                if (intStatus == 0) {
                     Toast.makeText(JobDetail.this, "You can cancel this job after approval", Toast.LENGTH_LONG).show();
-                }else if(intStatus==3){
+                } else if (intStatus == 3) {
                     Toast.makeText(JobDetail.this, "You already canceled this job", Toast.LENGTH_LONG).show();
-                } else{
+                } else {
                     API_CancelJob();
                 }
 
@@ -226,7 +227,7 @@ public class JobDetail extends AppCompatActivity {
 
 
                     Intent intent = new Intent(Intent.ACTION_CALL);
-                    intent.setData(Uri.parse("tel:"+textPhone));
+                    intent.setData(Uri.parse("tel:" + textPhone));
                     startActivity(intent);
 
                 } else {
@@ -239,12 +240,13 @@ public class JobDetail extends AppCompatActivity {
     }
 
 
-    public String parseDateInFormat(String strDate){
-        Date date = null;String newDate=null;
+    public String parseDateInFormat(String strDate) {
+        Date date = null;
+        String newDate = null;
         SimpleDateFormat spf = new SimpleDateFormat("yyyy-MM-dd");
         try {
             date = spf.parse(strDate);
-            spf= new SimpleDateFormat("dd-MM-yyyy");
+            spf = new SimpleDateFormat("dd-MM-yyyy");
             newDate = spf.format(date);
 
         } catch (ParseException e) {
@@ -256,7 +258,7 @@ public class JobDetail extends AppCompatActivity {
 
     public void parseDate(String strDate) {
         Date date = null;
-        String dayNum="", mon="";
+        String dayNum = "", mon = "";
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         try {
             date = format.parse(strDate);
@@ -270,7 +272,7 @@ public class JobDetail extends AppCompatActivity {
             mon = (String) DateFormat.format("MMM", date); // Jun
         }
 
-        tvDateBanner.setText(mon+"\n"+dayNum);
+        tvDateBanner.setText(mon + "\n" + dayNum);
     }
 
 
@@ -278,73 +280,145 @@ public class JobDetail extends AppCompatActivity {
 
         int userId = SharedPrefrence.getUserId(this);
 
-        final ProgressDialog progressDialog = ProgressDialog.show(this, "", " Please wait");
-        progressDialog.setCancelable(false);
+        if (getSubscription != null) {
+            return;
+        }
 
-        CallInterface callInterface = ApiClass.getClient().create(CallInterface.class);
-        Call<ModelJobApply> call = callInterface.ApplyJob(jobId, userId);
+        getSubscription = DownloaderManager.getGeneralDownloader().ApplyJob(jobId, userId)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(Schedulers.newThread())
+                .subscribe(new Subscriber<ModelJobApply>() {
+                    @Override
+                    public void onCompleted() {
 
-        call.enqueue(new Callback<ModelJobApply>() {
-            @Override
-            public void onResponse(Call<ModelJobApply> call, Response<ModelJobApply> response) {
-                if (progressDialog.isShowing())
-                    progressDialog.dismiss();
-                if (response.code() == 200) {
-                    ModelJobApply modelJobApply = response.body();
-                    Toast.makeText(JobDetail.this, modelJobApply.message, Toast.LENGTH_SHORT).show();
-                    JobDetail.this.finish();
-                } else {
-                    Toast.makeText(JobDetail.this, "Bad request!!!", Toast.LENGTH_SHORT).show();
-                }
+                    }
 
-            }
+                    @Override
+                    public void onError(final Throwable e) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(JobDetail.this, e.toString(), Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }
 
-            @Override
-            public void onFailure(Call<ModelJobApply> call, Throwable t) {
-                Toast.makeText(JobDetail.this, "Error during apply for a job", Toast.LENGTH_SHORT).show();
+                    @Override
+                    public void onNext(final ModelJobApply modelJobApply) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(JobDetail.this, modelJobApply.message, Toast.LENGTH_SHORT).show();
+                                JobDetail.this.finish();
+                            }
+                        });
+                    }
+                });
 
-            }
-        });
+
+//        final ProgressDialog progressDialog = ProgressDialog.show(this, "", " Please wait");
+//        progressDialog.setCancelable(false);
+//
+//        ApiCalls callInterface = ApiClass.getClient().create(ApiCalls.class);
+//        Call<ModelJobApply> call = callInterface.ApplyJob(jobId, userId);
+//
+//        call.enqueue(new Callback<ModelJobApply>() {
+//            @Override
+//            public void onResponse(Call<ModelJobApply> call, Response<ModelJobApply> response) {
+//                if (progressDialog.isShowing())
+//                    progressDialog.dismiss();
+//                if (response.code() == 200) {
+//                    ModelJobApply modelJobApply = response.body();
+//                    Toast.makeText(JobDetail.this, modelJobApply.message, Toast.LENGTH_SHORT).show();
+//                    JobDetail.this.finish();
+//                } else {
+//                    Toast.makeText(JobDetail.this, "Bad request!!!", Toast.LENGTH_SHORT).show();
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ModelJobApply> call, Throwable t) {
+//                Toast.makeText(JobDetail.this, "Error during apply for a job", Toast.LENGTH_SHORT).show();
+//
+//            }
+//        });
 
     }
-
 
 
     public void API_CancelJob() {
 
         int userId = SharedPrefrence.getUserId(this);
 
-        final ProgressDialog progressDialog = ProgressDialog.show(this, "", " Please wait");
-        progressDialog.setCancelable(false);
 
-        CallInterface callInterface = ApiClass.getClient().create(CallInterface.class);
-        Call<ModelJobApply> call = callInterface.CancelJob(jobId, userId);
+        if (getSubscription != null) {
+            return;
+        }
 
-        call.enqueue(new Callback<ModelJobApply>() {
-            @Override
-            public void onResponse(Call<ModelJobApply> call, Response<ModelJobApply> response) {
-                if (progressDialog.isShowing())
-                    progressDialog.dismiss();
-                if (response.code() == 200) {
-                    ModelJobApply modelJobApply = response.body();
-                    Toast.makeText(JobDetail.this, modelJobApply.message, Toast.LENGTH_SHORT).show();
-                    JobDetail.this.finish();
-                } else {
-                    Toast.makeText(JobDetail.this, "Bad request!!!", Toast.LENGTH_SHORT).show();
-                }
+        getSubscription = DownloaderManager.getGeneralDownloader().CancelJob(jobId, userId)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(Schedulers.newThread())
+                .subscribe(new Subscriber<ModelJobApply>() {
+                    @Override
+                    public void onCompleted() {
 
-            }
+                    }
 
-            @Override
-            public void onFailure(Call<ModelJobApply> call, Throwable t) {
-                Toast.makeText(JobDetail.this, "Error during apply for a job", Toast.LENGTH_SHORT).show();
+                    @Override
+                    public void onError(final Throwable e) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(JobDetail.this, e.toString(), Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }
 
-            }
-        });
+                    @Override
+                    public void onNext(final ModelJobApply modelJobApply) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(JobDetail.this, modelJobApply.message, Toast.LENGTH_SHORT).show();
+                                JobDetail.this.finish();
+                            }
+                        });
+                    }
+                });
+
+
+
+
+//        final ProgressDialog progressDialog = ProgressDialog.show(this, "", " Please wait");
+//        progressDialog.setCancelable(false);
+//
+//        ApiCalls callInterface = ApiClass.getClient().create(ApiCalls.class);
+//        Call<ModelJobApply> call = callInterface.CancelJob(jobId, userId);
+//
+//        call.enqueue(new Callback<ModelJobApply>() {
+//            @Override
+//            public void onResponse(Call<ModelJobApply> call, Response<ModelJobApply> response) {
+//                if (progressDialog.isShowing())
+//                    progressDialog.dismiss();
+//                if (response.code() == 200) {
+//                    ModelJobApply modelJobApply = response.body();
+//                    Toast.makeText(JobDetail.this, modelJobApply.message, Toast.LENGTH_SHORT).show();
+//                    JobDetail.this.finish();
+//                } else {
+//                    Toast.makeText(JobDetail.this, "Bad request!!!", Toast.LENGTH_SHORT).show();
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ModelJobApply> call, Throwable t) {
+//                Toast.makeText(JobDetail.this, "Error during apply for a job", Toast.LENGTH_SHORT).show();
+//
+//            }
+//        });
 
     }
-
-
 
 
     private boolean checkPermission() {
@@ -400,7 +474,6 @@ public class JobDetail extends AppCompatActivity {
                 .create()
                 .show();
     }
-
 
 
 }

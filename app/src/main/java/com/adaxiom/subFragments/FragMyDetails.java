@@ -3,30 +3,16 @@ package com.adaxiom.subFragments;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import com.adaxiom.adapters.RA_MyJobs;
 import com.adaxiom.database.DatabaseHelper;
 import com.adaxiom.locumset.R;
-import com.adaxiom.models.ModelJobList;
 import com.adaxiom.models.ModelUser;
-import com.adaxiom.network.ApiClass;
-import com.adaxiom.network.CallInterface;
 import com.adaxiom.utils.SharedPrefrence;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class FragMyDetails extends Fragment {
 

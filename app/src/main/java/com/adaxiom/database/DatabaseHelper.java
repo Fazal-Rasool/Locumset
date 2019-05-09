@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.adaxiom.models.ModelLogin;
 import com.adaxiom.models.ModelUser;
-import com.adaxiom.utils.MyApplication;
+import com.adaxiom.utils.Locumset;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +27,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static DatabaseHelper getInstance() {
         if (database == null) {
-            database = new DatabaseHelper(MyApplication.getAppContext());
+            database = new DatabaseHelper(Locumset.getAppContext());
         }
         return database;
     }

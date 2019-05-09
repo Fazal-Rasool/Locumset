@@ -8,21 +8,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.adaxiom.models.ModelJobList;
+import com.adaxiom.manager.DownloaderManager;
 import com.adaxiom.models.ModelRegister;
-import com.adaxiom.network.ApiClass;
-import com.adaxiom.network.CallInterface;
+import com.adaxiom.network.ApiCalls;
 
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import rx.Subscriber;
+import rx.Subscription;
+import rx.schedulers.Schedulers;
 
 public class Register extends AppCompatActivity {
 
     EditText etName, etLastName, etEmail, etPassword, etGmcNum;
     Button btnLogin;
+
+    private Subscription getSubscription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,32 +64,68 @@ public class Register extends AppCompatActivity {
         password = etPassword.getText().toString().trim();
         gmcNum = etGmcNum.getText().toString().trim();
 
-        final ProgressDialog progressDialog = ProgressDialog.show(Register.this, "", " Please wait");
-        progressDialog.setCancelable(false);
+//        final ProgressDialog progressDialog = ProgressDialog.show(Register.this, "", " Please wait");
+//        progressDialog.setCancelable(false);
 
-        CallInterface callInterface = ApiClass.getClient().create(CallInterface.class);
-        Call<ModelRegister> call = callInterface.Register(name, lastName, email, password, gmcNum);
+        if (getSubscription != null) {
+            return;
+        }
 
-        call.enqueue(new Callback<ModelRegister>() {
-            @Override
-            public void onResponse(Call<ModelRegister> call, Response<ModelRegister> response) {
-                if (progressDialog.isShowing())
-                    progressDialog.dismiss();
-                if(response.code() == 200) {
-                    ModelRegister modelRegister = response.body();
-                    Toast.makeText(Register.this, modelRegister.message, Toast.LENGTH_SHORT).show();
-                    Register.this.finish();
-                }else{
-                    Toast.makeText(Register.this, "Bad Request Error!!!", Toast.LENGTH_SHORT).show();
-                }
+        getSubscription = DownloaderManager.getGeneralDownloader().Register(name, lastName, email, password, gmcNum)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(Schedulers.newThread())
+                .subscribe(new Subscriber<ModelRegister>() {
+                    @Override
+                    public void onCompleted() {
 
-            }
+                    }
 
-            @Override
-            public void onFailure(Call<ModelRegister> call, Throwable t) {
-                Toast.makeText(Register.this, "Registration failed", Toast.LENGTH_SHORT).show();
+                    @Override
+                    public void onError(final Throwable e) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(Register.this, e.toString(), Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }
 
-            }
-        });
+                    @Override
+                    public void onNext(final ModelRegister modelRegister) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(Register.this, modelRegister.message, Toast.LENGTH_SHORT).show();
+                                Register.this.finish();
+                            }
+                        });
+                    }
+                });
+
+
+//        ApiCalls callInterface = ApiClass.getClient().create(ApiCalls.class);
+//        Call<ModelRegister> call = callInterface.Register(name, lastName, email, password, gmcNum);
+//
+//        call.enqueue(new Callback<ModelRegister>() {
+//            @Override
+//            public void onResponse(Call<ModelRegister> call, Response<ModelRegister> response) {
+//                if (progressDialog.isShowing())
+//                    progressDialog.dismiss();
+//                if(response.code() == 200) {
+//                    ModelRegister modelRegister = response.body();
+//                    Toast.makeText(Register.this, modelRegister.message, Toast.LENGTH_SHORT).show();
+//                    Register.this.finish();
+//                }else{
+//                    Toast.makeText(Register.this, "Bad Request Error!!!", Toast.LENGTH_SHORT).show();
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ModelRegister> call, Throwable t) {
+//                Toast.makeText(Register.this, "Registration failed", Toast.LENGTH_SHORT).show();
+//
+//            }
+//        });
     }
 }

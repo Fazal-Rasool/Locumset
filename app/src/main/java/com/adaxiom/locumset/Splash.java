@@ -36,7 +36,6 @@ public class Splash extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
         registerBroadCastReceiver();
     }
 
@@ -68,19 +67,16 @@ public class Splash extends AppCompatActivity {
     }
 
 
-    private void checkLogin()
-    {
+    private void checkLogin() {
 
 //        String value=SharedPrefrenceStorage.INSTANCE.getIsLogin(Splash.this);
         String value = SharedPrefrence.getIsLogin(this);
 
-        if(!value.equalsIgnoreCase("0"))
-        {
+        if(!value.equalsIgnoreCase("0")) {
             Intent intent=new Intent(Splash.this,MainActivity.class);
             startActivity(intent);
         }
-        else
-        {
+        else {
             Intent intent=new Intent(Splash.this,Login.class);
             startActivity(intent);
         }

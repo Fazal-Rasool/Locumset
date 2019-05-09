@@ -19,7 +19,7 @@ public class FirebaseInstanceIDService extends FirebaseInstanceIdService {
 
 //    public void uploadToken(String IMEI, String Token) {
 //
-//        CallInterface callInterface = ApiClass.getClient("http://5.9.147.58/playstore_live/apis/device/").create(CallInterface.class);
+//        ApiCalls callInterface = ApiClass.getClient("http://5.9.147.58/playstore_live/apis/device/").create(ApiCalls.class);
 //        Call<Void> callUser = callInterface.postToken(Token, IMEI);
 //        callUser.enqueue(new Callback<Void>() {
 //            @Override

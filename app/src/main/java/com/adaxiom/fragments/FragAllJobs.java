@@ -16,18 +16,20 @@ import android.widget.Toast;
 
 import com.adaxiom.adapters.RA_Home;
 import com.adaxiom.locumset.JobDetail;
+import com.adaxiom.locumset.Login;
 import com.adaxiom.locumset.R;
+import com.adaxiom.manager.DownloaderManager;
 import com.adaxiom.models.ModelJobList;
-import com.adaxiom.network.ApiClass;
-import com.adaxiom.network.CallInterface;
+import com.adaxiom.models.ModelLogin;
+import com.adaxiom.network.ApiCalls;
 import com.adaxiom.utils.SharedPrefrence;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import rx.Subscriber;
+import rx.Subscription;
+import rx.schedulers.Schedulers;
 
 
 public class FragAllJobs extends Fragment {
@@ -43,6 +45,8 @@ public class FragAllJobs extends Fragment {
     SwipeRefreshLayout swipeContainer;
 
     SearchView searchViewShop;
+
+    private Subscription getSubscription;
 
 
     @Override
@@ -72,7 +76,7 @@ public class FragAllJobs extends Fragment {
 
     public void setViews() {
 
-        swipeContainer = (SwipeRefreshLayout)view.findViewById(R.id.swipeContainer);
+        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerPthFragment);
     }
 
@@ -91,9 +95,7 @@ public class FragAllJobs extends Fragment {
                 android.R.color.holo_red_light);
 
 
-
     }
-
 
 
     public void setAdapter() {
@@ -139,41 +141,86 @@ public class FragAllJobs extends Fragment {
 
         swipeContainer.setRefreshing(true);
 
-        final ProgressDialog progressDialog = ProgressDialog.show(getActivity(), "", " Please wait");
-        progressDialog.setCancelable(false);
-
         int userId = SharedPrefrence.getUserId(getActivity());
 
-        CallInterface callInterface = ApiClass.getClient().create(CallInterface.class);
-        Call<List<ModelJobList>> call = callInterface.GetJobList(userId);
+        if (getSubscription != null) {
+            return;
+        }
 
-        call.enqueue(new Callback<List<ModelJobList>>() {
-            @Override
-            public void onResponse(Call<List<ModelJobList>> call, Response<List<ModelJobList>> response) {
-                if (progressDialog.isShowing())
-                    progressDialog.dismiss();
+        getSubscription = DownloaderManager.getGeneralDownloader().GetJobList(userId)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(Schedulers.newThread())
+                .subscribe(new Subscriber<List<ModelJobList>>() {
+                    @Override
+                    public void onCompleted() {
 
-                swipeContainer.setRefreshing(false);
-
-                if (response.code() == 200) {
-                    listHome = response.body();
-                    if (listHome.size() != 0) {
-                        setAdapter();
-//                    Toast.makeText(getActivity(), "Data Found", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(getActivity(), "No data found", Toast.LENGTH_SHORT).show();
                     }
-                } else {
-                    Toast.makeText(getActivity(), "Bad request!!!", Toast.LENGTH_SHORT).show();
-                }
-            }
 
-            @Override
-            public void onFailure(Call<List<ModelJobList>> call, Throwable t) {
-                Toast.makeText(getActivity(), "Error while fetching jobs from server", Toast.LENGTH_SHORT).show();
+                    @Override
+                    public void onError(final Throwable e) {
 
-            }
-        });
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                swipeContainer.setRefreshing(false);
+                                Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onNext(final List<ModelJobList> listJob) {
+                        listHome.addAll(listJob);
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                swipeContainer.setRefreshing(false);
+                                if (listHome.size() != 0) {
+                                    setAdapter();
+//                    Toast.makeText(getActivity(), "Data Found", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(getActivity(), "No data found", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                    }
+                });
+
+//        final ProgressDialog progressDialog = ProgressDialog.show(getActivity(), "", " Please wait");
+//        progressDialog.setCancelable(false);
+//
+//        int userId = SharedPrefrence.getUserId(getActivity());
+//
+//        ApiCalls callInterface = ApiClass.getClient().create(ApiCalls.class);
+//        Call<List<ModelJobList>> call = callInterface.GetJobList(userId);
+//
+//        call.enqueue(new Callback<List<ModelJobList>>() {
+//            @Override
+//            public void onResponse(Call<List<ModelJobList>> call, Response<List<ModelJobList>> response) {
+//                if (progressDialog.isShowing())
+//                    progressDialog.dismiss();
+//
+//                swipeContainer.setRefreshing(false);
+//
+//                if (response.code() == 200) {
+//                    listHome = response.body();
+//                    if (listHome.size() != 0) {
+//                        setAdapter();
+////                    Toast.makeText(getActivity(), "Data Found", Toast.LENGTH_SHORT).show();
+//                    } else {
+//                        Toast.makeText(getActivity(), "No data found", Toast.LENGTH_SHORT).show();
+//                    }
+//                } else {
+//                    Toast.makeText(getActivity(), "Bad request!!!", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<ModelJobList>> call, Throwable t) {
+//                Toast.makeText(getActivity(), "Error while fetching jobs from server", Toast.LENGTH_SHORT).show();
+//
+//            }
+//        });
     }
 
     public static void doSearch(String query) {
