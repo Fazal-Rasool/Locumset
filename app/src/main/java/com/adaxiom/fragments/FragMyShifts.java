@@ -43,7 +43,7 @@ public class FragMyShifts extends Fragment {
     public static RA_MyShifts reAdapter;
     List<ModelMyShifts> listHome;
     SwipeRefreshLayout swipeContainer;
-
+    private View avLoading;
     SearchView searchViewShop;
 
     private Subscription getSubscription;
@@ -58,7 +58,6 @@ public class FragMyShifts extends Fragment {
         setViews();
         setListener();
         API_GetJobsLis();
-//        setView();
 
         return view;
     }
@@ -78,6 +77,7 @@ public class FragMyShifts extends Fragment {
 
         swipeContainer = (SwipeRefreshLayout)view.findViewById(R.id.swipeContainer_applyJobs);
         recyclerView = (RecyclerView) view.findViewById(R.id.reApplyJobs);
+        avLoading = view.findViewById(R.id.avLoadingView);
     }
 
     private void setListener() {
@@ -153,6 +153,8 @@ public class FragMyShifts extends Fragment {
             return;
         }
 
+        avLoading.setVisibility(View.VISIBLE);
+
         getSubscription = DownloaderManager.getGeneralDownloader().GetAppliedJobs(userId)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(Schedulers.newThread())
@@ -168,6 +170,7 @@ public class FragMyShifts extends Fragment {
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                avLoading.setVisibility(View.GONE);
                                 Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_LONG).show();
                             }
                         });
@@ -175,10 +178,12 @@ public class FragMyShifts extends Fragment {
 
                     @Override
                     public void onNext(final List<ModelMyShifts> listJob) {
-                        listHome.addAll(listJob);
+
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                avLoading.setVisibility(View.GONE);
+                                listHome.addAll(listJob);
                                 if (listHome.size() != 0) {
                                     setAdapter();
 //                    Toast.makeText(getActivity(), "Data Found", Toast.LENGTH_SHORT).show();

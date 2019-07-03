@@ -39,6 +39,8 @@ public class Login extends AppCompatActivity {
 
     private Subscription getSubscription;
 
+    private View avLoading;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +73,7 @@ public class Login extends AppCompatActivity {
         email = (EditText) findViewById(R.id.login_email);
         password = (EditText) findViewById(R.id.password_login);
         login = (Button) findViewById(R.id.button_login);
-
+        avLoading = (View) findViewById(R.id.avLoadingView);
 
         findViewById(R.id.btnLogin).setOnClickListener(new OnClickListener() {
             @Override
@@ -102,6 +104,8 @@ public class Login extends AppCompatActivity {
                 return;
             }
 
+            avLoading.setVisibility(View.VISIBLE);
+
             getSubscription = DownloaderManager.getGeneralDownloader().ForgotPassword(email_str)
                     .subscribeOn(Schedulers.newThread())
                     .observeOn(Schedulers.newThread())
@@ -116,6 +120,7 @@ public class Login extends AppCompatActivity {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
+                                    avLoading.setVisibility(View.GONE);
                                     Toast.makeText(Login.this, e.toString(), Toast.LENGTH_LONG).show();
                                 }
                             });
@@ -126,6 +131,7 @@ public class Login extends AppCompatActivity {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
+                                    avLoading.setVisibility(View.GONE);
                                     Toast.makeText(Login.this, "Email sent successfully", Toast.LENGTH_SHORT).show();
                                 }
                             });
@@ -176,12 +182,14 @@ public class Login extends AppCompatActivity {
             password_str = password.getText().toString();
 
 
-            if (getSubscription != null) {
-                return;
-            }
+//            if (getSubscription != null) {
+//                return;
+//            }
 
-            final ProgressDialog progressDialog = ProgressDialog.show(Login.this, "", " Please wait");
-            progressDialog.setCancelable(false);
+            avLoading.setVisibility(View.VISIBLE);
+
+//            final ProgressDialog progressDialog = ProgressDialog.show(Login.this, "", " Please wait");
+//            progressDialog.setCancelable(false);
 
             getSubscription = DownloaderManager.getGeneralDownloader().LoginData(email_str, password_str, token)
                     .subscribeOn(Schedulers.newThread())
@@ -197,7 +205,7 @@ public class Login extends AppCompatActivity {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    progressDialog.dismiss();
+                                    avLoading.setVisibility(View.GONE);
                                     Toast.makeText(Login.this, e.toString(), Toast.LENGTH_LONG).show();
                                 }
                             });
@@ -208,7 +216,7 @@ public class Login extends AppCompatActivity {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    progressDialog.dismiss();
+                                    avLoading.setVisibility(View.GONE);
                                     if (!modelLogin.Error) {
                                         SharedPrefrence.setUserId(Login.this, modelLogin.user_id);
                                         dbHelper.saveUser(modelLogin);

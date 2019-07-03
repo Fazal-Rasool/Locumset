@@ -6,26 +6,26 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <android.support.v7.widget.Toolbar
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:layout_marginBottom="1dp"
-        android:id="@+id/toolbar_home"
-        app:title="Available Jobs"
-        app:titleTextColor="#fff"
-        >
-        <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:id="@+id/tv_toolbarTitle"-->
-            <!--android:textColor="#fff"-->
-            <!--android:textSize="18dp"-->
-            <!--android:text="Available Jobs"-->
-            <!--android:paddingLeft="5dp"-->
-            <!--android:textAllCaps="false"-->
-            <!--/>-->
-    </android.support.v7.widget.Toolbar>
+    <!--<android.support.v7.widget.Toolbar-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="@color/colorPrimary"-->
+        <!--android:layout_marginBottom="1dp"-->
+        <!--android:id="@+id/toolbar_home"-->
+        <!--app:title="Available Jobs"-->
+        <!--app:titleTextColor="#fff"-->
+        <!--&gt;-->
+        <!--&lt;!&ndash;<TextView&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_height="match_parent"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:id="@+id/tv_toolbarTitle"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:textColor="#fff"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:textSize="18dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:text="Available Jobs"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:paddingLeft="5dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:textAllCaps="false"&ndash;&gt;-->
+            <!--&lt;!&ndash;/>&ndash;&gt;-->
+    <!--</android.support.v7.widget.Toolbar>-->
 
     <FrameLayout
         android:id="@+id/fragment_container"

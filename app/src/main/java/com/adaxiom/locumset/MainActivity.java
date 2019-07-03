@@ -43,8 +43,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar_home);
-        setSupportActionBar(toolbar);
+//        toolbar = (Toolbar) findViewById(R.id.toolbar_home);
+//        setSupportActionBar(toolbar);
 
         loadFragment(new FragAllJobs());
         setViews();
@@ -134,7 +134,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setToolbarTitle(String title) {
-        toolbar.setTitle(title);
+//        toolbar.setTitle(title);
+        setTitle(title);
         switch (tabNum) {
             case 1:
                 menuItemSearch.setVisible(true);

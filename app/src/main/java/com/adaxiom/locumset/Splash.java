@@ -36,7 +36,7 @@ public class Splash extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        registerBroadCastReceiver();
+//        registerBroadCastReceiver();
     }
 
     public void setViews(){
@@ -83,31 +83,31 @@ public class Splash extends AppCompatActivity {
     }
 
 
-    public void registerBroadCastReceiver() {
-
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction("com.adaxiom.firebase.onMessageReceived");
-        MyBroadcastReceiver receiver = new MyBroadcastReceiver();
-        registerReceiver(receiver, intentFilter);
-    }
-
-    private class MyBroadcastReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            Bundle extras = intent.getExtras();
-            String state = extras.getString("extra");
-            Toast.makeText(Splash.this,state, Toast.LENGTH_LONG).show();
-//            if (Utility.isInternetConnected(LauncherHomeActivity.this)) {
-//                if (state.equalsIgnoreCase("1")) {
-//                    ApiDeviceImageBlockStatus();
-//                } else if (state.equalsIgnoreCase("0")) {
-//                    runInstallationSevices();
-//                }
+//    public void registerBroadCastReceiver() {
 //
-//            }
+//        IntentFilter intentFilter = new IntentFilter();
+//        intentFilter.addAction("com.adaxiom.firebase.onMessageReceived");
+//        MyBroadcastReceiver receiver = new MyBroadcastReceiver();
+//        registerReceiver(receiver, intentFilter);
+//    }
 
-
-        }
-    }
+//    private class MyBroadcastReceiver extends BroadcastReceiver {
+//        @Override
+//        public void onReceive(Context context, Intent intent) {
+//            Bundle extras = intent.getExtras();
+//            String state = extras.getString("extra");
+//            Toast.makeText(Splash.this,state, Toast.LENGTH_LONG).show();
+////            if (Utility.isInternetConnected(LauncherHomeActivity.this)) {
+////                if (state.equalsIgnoreCase("1")) {
+////                    ApiDeviceImageBlockStatus();
+////                } else if (state.equalsIgnoreCase("0")) {
+////                    runInstallationSevices();
+////                }
+////
+////            }
+//
+//
+//        }
+//    }
 
 }

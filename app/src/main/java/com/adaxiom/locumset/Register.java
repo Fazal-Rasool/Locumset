@@ -20,7 +20,7 @@ public class Register extends AppCompatActivity {
 
     EditText etName, etLastName, etEmail, etPassword, etGmcNum;
     Button btnLogin;
-
+    private View avLoading;
     private Subscription getSubscription;
 
     @Override
@@ -44,6 +44,7 @@ public class Register extends AppCompatActivity {
         etPassword = (EditText) findViewById(R.id.etRegPassword);
         etGmcNum = (EditText) findViewById(R.id.etRegGmcNum);
         btnLogin = (Button) findViewById(R.id.btnRegLogin);
+        avLoading = (View) findViewById(R.id.avLoadingView);
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,9 +68,11 @@ public class Register extends AppCompatActivity {
 //        final ProgressDialog progressDialog = ProgressDialog.show(Register.this, "", " Please wait");
 //        progressDialog.setCancelable(false);
 
-        if (getSubscription != null) {
-            return;
-        }
+//        if (getSubscription != null) {
+//            return;
+//        }
+
+        avLoading.setVisibility(View.VISIBLE);
 
         getSubscription = DownloaderManager.getGeneralDownloader().Register(name, lastName, email, password, gmcNum)
                 .subscribeOn(Schedulers.newThread())
@@ -85,6 +88,7 @@ public class Register extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                avLoading.setVisibility(View.GONE);
                                 Toast.makeText(Register.this, e.toString(), Toast.LENGTH_LONG).show();
                             }
                         });
@@ -95,6 +99,7 @@ public class Register extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                avLoading.setVisibility(View.GONE);
                                 Toast.makeText(Register.this, modelRegister.message, Toast.LENGTH_SHORT).show();
                                 Register.this.finish();
                             }

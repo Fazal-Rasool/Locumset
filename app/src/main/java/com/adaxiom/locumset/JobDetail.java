@@ -54,7 +54,7 @@ public class JobDetail extends AppCompatActivity {
     View viewPayScale;
 
     private Subscription getSubscription;
-
+    private View avLoading;
     private static final int PERMISSION_REQUEST_CODE = 300;
 
     @Override
@@ -120,7 +120,7 @@ public class JobDetail extends AppCompatActivity {
         tvPayGrade = (TextView) findViewById(R.id.tvPayGrade);
         tvGrade = (TextView) findViewById(R.id.tvDetailGrade);
         viewPayScale = (View) findViewById(R.id.viewPayScale);
-
+        avLoading = findViewById(R.id.avLoadingView);
 
         cbCheck = (CheckBox) findViewById(R.id.cbAgree);
 
@@ -284,6 +284,8 @@ public class JobDetail extends AppCompatActivity {
             return;
         }
 
+        avLoading.setVisibility(View.VISIBLE);
+
         getSubscription = DownloaderManager.getGeneralDownloader().ApplyJob(jobId, userId)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(Schedulers.newThread())
@@ -298,6 +300,7 @@ public class JobDetail extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                avLoading.setVisibility(View.GONE);
                                 Toast.makeText(JobDetail.this, e.toString(), Toast.LENGTH_LONG).show();
                             }
                         });
@@ -308,6 +311,7 @@ public class JobDetail extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                avLoading.setVisibility(View.GONE);
                                 Toast.makeText(JobDetail.this, modelJobApply.message, Toast.LENGTH_SHORT).show();
                                 JobDetail.this.finish();
                             }
@@ -356,6 +360,8 @@ public class JobDetail extends AppCompatActivity {
             return;
         }
 
+        avLoading.setVisibility(View.VISIBLE);
+
         getSubscription = DownloaderManager.getGeneralDownloader().CancelJob(jobId, userId)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(Schedulers.newThread())
@@ -370,6 +376,7 @@ public class JobDetail extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                avLoading.setVisibility(View.GONE);
                                 Toast.makeText(JobDetail.this, e.toString(), Toast.LENGTH_LONG).show();
                             }
                         });
@@ -380,6 +387,7 @@ public class JobDetail extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                avLoading.setVisibility(View.GONE);
                                 Toast.makeText(JobDetail.this, modelJobApply.message, Toast.LENGTH_SHORT).show();
                                 JobDetail.this.finish();
                             }

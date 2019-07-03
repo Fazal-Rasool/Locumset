@@ -398,4 +398,6 @@
         </LinearLayout>
     </ScrollView>
 
+    <include layout="@layout/layout_loader"/>
+
 </RelativeLayout>

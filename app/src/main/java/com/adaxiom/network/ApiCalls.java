@@ -10,14 +10,20 @@ import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.MultipartBody;
-import retrofit.http.Field;
-import retrofit.http.FormUrlEncoded;
-import retrofit.http.GET;
-import retrofit.http.Multipart;
-import retrofit.http.POST;
-import retrofit.http.Part;
-import retrofit.http.Path;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
+import retrofit2.http.POST;
+import retrofit2.http.Path;
 import rx.Observable;
+
+import static com.adaxiom.utils.Constants.API_APPLIED_JOB;
+import static com.adaxiom.utils.Constants.API_APPLY_JOB;
+import static com.adaxiom.utils.Constants.API_CANCEL_JOB;
+import static com.adaxiom.utils.Constants.API_FORGOT_PASS;
+import static com.adaxiom.utils.Constants.API_JOB_LIST;
+import static com.adaxiom.utils.Constants.API_LOGIN;
+import static com.adaxiom.utils.Constants.API_SIGN_UP;
 
 public interface ApiCalls {
 
@@ -35,7 +41,7 @@ public interface ApiCalls {
 //
 
     @FormUrlEncoded
-    @POST("/sign_up")
+    @POST(API_SIGN_UP)
     Observable<ModelRegister> Register(
             @Field("name") String name,
             @Field("last_name") String lastname,
@@ -46,14 +52,14 @@ public interface ApiCalls {
 
 
     @FormUrlEncoded
-    @POST("/apply")
+    @POST(API_APPLY_JOB)
     Observable<ModelJobApply> ApplyJob(
             @Field("job_id") int job_id,
             @Field("user_id") int user_id
     );
 
     @FormUrlEncoded
-    @POST("/cancel_job")
+    @POST(API_CANCEL_JOB)
     Observable<ModelJobApply> CancelJob(
             @Field("job_id") int job_id,
             @Field("user_id") int user_id
@@ -61,12 +67,12 @@ public interface ApiCalls {
 
 
     @FormUrlEncoded
-    @POST("/forgot_password")
+    @POST(API_FORGOT_PASS)
     Observable<ModelLogin> ForgotPassword(@Field("email") String email);
 
 
     @FormUrlEncoded
-    @POST("/login_user")
+    @POST(API_LOGIN)
     Observable<ModelLogin> LoginData(
             @Field("email") String email,
             @Field("password") String password,
@@ -77,13 +83,13 @@ public interface ApiCalls {
 //    @GET("get_jobs")
 //    Call<List<ModelJobList>> GetJobsList();
 
-    @GET("/get_all_jobs/{user_id}")
+    @GET(API_JOB_LIST)
     Observable<List<ModelJobList>> GetJobList(@Path("user_id") int user_id);
 
 //    @GET("get_approved_jobs/{user_id}")
 //    Call<List<ModelJobList>> GetMyJobs(@Path("user_id") int user_id);
 
-    @GET("/get_applied_jobs/{user_id}")
+    @GET(API_APPLIED_JOB)
     Observable<List<ModelMyShifts>> GetAppliedJobs(@Path("user_id") int user_id);
 
 

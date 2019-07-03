@@ -43,7 +43,7 @@ public class FragAllJobs extends Fragment {
     public static RA_Home reAdapter;
     List<ModelJobList> listHome;
     SwipeRefreshLayout swipeContainer;
-
+    private View avLoading;
     SearchView searchViewShop;
 
     private Subscription getSubscription;
@@ -57,6 +57,7 @@ public class FragAllJobs extends Fragment {
         createObjects();
         setViews();
         setListener();
+//        API_GetJobsLis();
 
 //        setView();
 
@@ -78,6 +79,7 @@ public class FragAllJobs extends Fragment {
 
         swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerPthFragment);
+        avLoading = (View) view.findViewById(R.id.avLoadingView);
     }
 
     private void setListener() {
@@ -139,13 +141,16 @@ public class FragAllJobs extends Fragment {
 
     public void API_GetJobsLis() {
 
-        swipeContainer.setRefreshing(true);
+
 
         int userId = SharedPrefrence.getUserId(getActivity());
 
-        if (getSubscription != null) {
-            return;
-        }
+//        if (getSubscription != null) {
+//            return;
+//        }
+
+        avLoading.setVisibility(View.VISIBLE);
+        swipeContainer.setRefreshing(true);
 
         getSubscription = DownloaderManager.getGeneralDownloader().GetJobList(userId)
                 .subscribeOn(Schedulers.newThread())
@@ -163,6 +168,7 @@ public class FragAllJobs extends Fragment {
                             @Override
                             public void run() {
                                 swipeContainer.setRefreshing(false);
+                                avLoading.setVisibility(View.GONE);
                                 Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_LONG).show();
                             }
                         });
@@ -175,6 +181,7 @@ public class FragAllJobs extends Fragment {
                             @Override
                             public void run() {
                                 swipeContainer.setRefreshing(false);
+                                avLoading.setVisibility(View.GONE);
                                 if (listHome.size() != 0) {
                                     setAdapter();
 //                    Toast.makeText(getActivity(), "Data Found", Toast.LENGTH_SHORT).show();
