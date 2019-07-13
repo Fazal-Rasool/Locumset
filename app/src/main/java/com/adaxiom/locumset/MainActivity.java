@@ -18,7 +18,6 @@ import android.widget.RadioButton;
 import com.adaxiom.adapters.RA_Home;
 import com.adaxiom.fragments.FragAllJobs;
 import com.adaxiom.fragments.FragMyShifts;
-import com.adaxiom.fragments.FragTimeSheet;
 import com.adaxiom.fragments.FragMyProfile;
 import com.adaxiom.utils.SharedPrefrence;
 
@@ -73,8 +72,10 @@ public class MainActivity extends AppCompatActivity {
                                 return true;
                             case R.id.nav_time_sheet:
                                 tabNum = 3;
-                                loadFragment(new FragTimeSheet());
-                                setToolbarTitle("Time Sheet");
+                                Intent intent = new Intent(MainActivity.this, TimeSheet.class);
+                                startActivity(intent);
+//                                loadFragment(new FragTimeSheet());
+//                                setToolbarTitle("Time Sheet");
                                 return true;
                             case R.id.nav_my_profile:
                                 tabNum = 4;

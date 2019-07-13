@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:weightSum="10"
+    tools:context=".Login">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/customborder_layout"
+            android:layout_alignParentTop="true"
+            android:weightSum="10">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:text="01\nJUl\nmon"
+                android:textColor="#000"
+                android:textSize="16dp"
+                android:textStyle="normal" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="6"
+                android:gravity="center"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="Orthopedic Surgery"
+                    android:textColor="#000"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="Poole Hosptial NHS Foundation Trust"
+                    android:textColor="#000"
+                    android:textSize="14dp"
+                    android:textStyle="normal" />
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_watch"
+                    android:layout_gravity="center"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:text="08:00\n16:30"
+                    android:textColor="#000"
+                    android:textSize="16dp"
+                    android:textStyle="normal" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.2"/>
+
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="0dp"-->
+            <!--android:layout_weight="6">-->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="7"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:background="@drawable/box_time_sheet_two"
+                >
+
+                <ImageView
+                    android:id="@+id/logoms"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/logo"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="40dp"/>
+
+                <TextView
+                    android:id="@+id/tvLable"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:text="Your selected grade"
+                    android:textColor="#000"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:text="Senior House officer/sp1-2/\nCore Trainee"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+
+
+
+                <com.webianks.library.scroll_choice.ScrollChoice
+                    android:id="@+id/scroll_choice"
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:layout_below="@+id/tvLable"
+                    android:background="@null"
+                    android:visibility="gone"
+                    app:scroll_item_text_color="@color/colorPrimary"
+                    />
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="4"/>
+
+
+            </LinearLayout>
+
+        <!--</LinearLayout>-->
+
+
+    <!--</LinearLayout>-->
+
+
+
+</LinearLayout>

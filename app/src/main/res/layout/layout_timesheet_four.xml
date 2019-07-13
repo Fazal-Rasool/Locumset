@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context=".Login">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="10"
+        android:orientation="vertical">
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Doctor sign the details as correct"
+            android:textColor="#000"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Type your full name"
+            android:textColor="@color/dark_grey"
+            android:textSize="16dp"
+            android:textStyle="normal"
+            android:layout_marginTop="10dp"/>
+
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:text="Hafiz Virk"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18dp"
+            android:textStyle="bold"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="5"
+            android:padding="20dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:background="@drawable/box_time_sheet_two"
+                android:weightSum="2"
+                >
+
+
+                <com.github.gcacace.signaturepad.views.SignaturePad
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/signature_pad"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:penColor="@android:color/black"
+                    />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Sign here"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18dp"
+            android:textStyle="normal"
+            android:layout_marginTop="10dp"/>
+
+
+
+
+
+
+    </LinearLayout>
+
+
+</LinearLayout>
