@@ -40,7 +40,8 @@
     </RelativeLayout>
 
 
-    <TextView
+    <Button
+        android:id="@+id/btnPreviousViewPager"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_alignParentBottom="true"
@@ -48,10 +49,12 @@
         android:background="@drawable/circle"
         android:gravity="center"
         android:text="Back"
+        android:textAllCaps="false"
         android:textColor="#fff"
         android:textSize="18dp" />
 
-    <TextView
+    <Button
+        android:id="@+id/btnNextViewPager"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_alignParentRight="true"
@@ -59,6 +62,7 @@
         android:layout_marginRight="40dp"
         android:background="@drawable/circle"
         android:gravity="center"
+        android:textAllCaps="false"
         android:text="Next"
         android:textColor="#fff"
         android:textSize="18dp" />

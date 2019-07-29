@@ -14,6 +14,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 import rx.Observable;
 
@@ -24,6 +25,7 @@ import static com.adaxiom.utils.Constants.API_FORGOT_PASS;
 import static com.adaxiom.utils.Constants.API_JOB_LIST;
 import static com.adaxiom.utils.Constants.API_LOGIN;
 import static com.adaxiom.utils.Constants.API_SIGN_UP;
+import static com.adaxiom.utils.Constants.API_UPDATE_JOB_SHIFT;
 
 public interface ApiCalls {
 
@@ -91,6 +93,17 @@ public interface ApiCalls {
 
     @GET(API_APPLIED_JOB)
     Observable<List<ModelMyShifts>> GetAppliedJobs(@Path("user_id") int user_id);
+
+
+    @FormUrlEncoded
+    @POST(API_UPDATE_JOB_SHIFT)
+    Observable<ModelLogin> UpdateJobShift(
+            @Field("job_id") int jobId,
+            @Field("extra_hours") String extraHours,
+            @Field("field_1") String field1,
+            @Field("field_2") String field2,
+            @Part MultipartBody image
+    );
 
 
 //    @Multipart

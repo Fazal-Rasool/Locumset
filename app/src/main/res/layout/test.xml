@@ -289,6 +289,21 @@
 
 
                     <Button
+                        android:id="@+id/btnDetailTimeSheet"
+                        android:layout_width="250dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/light_pink"
+                        android:clickable="false"
+                        android:text="Add to TimeSheet"
+                        android:textAllCaps="false"
+                        android:textColor="#fff"
+                        android:textSize="18dp" />
+
+
+
+                    <Button
                         android:id="@+id/btnDetailApply"
                         android:layout_width="250dp"
                         android:layout_height="50dp"
@@ -298,6 +313,7 @@
                         android:clickable="false"
                         android:text="Apply"
                         android:textColor="#fff"
+                        android:visibility="gone"
                         android:textSize="18dp" />
 
                     <Button

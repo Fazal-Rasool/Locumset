@@ -8,6 +8,7 @@ import com.adaxiom.models.ModelLogin;
 import com.adaxiom.models.ModelMyShifts;
 import com.adaxiom.models.ModelRegister;
 
+import java.io.File;
 import java.util.List;
 
 import rx.Observable;
@@ -35,6 +36,8 @@ public interface BackendConnector {
         Observable<List<ModelJobList>> GetJobList(int userId);
 
         Observable<List<ModelMyShifts>> GetAppliedJobs(int userId);
+
+        Observable<List<ModelMyShifts>> UpdateShift(int jobid, String extraHours, String field1, String field2, File img);
 
 //
 //        Observable<List<RM_MatchActive>> matchActive();

@@ -50,7 +50,7 @@ public class JobDetail extends AppCompatActivity {
     int jobId = 0, intStatus = 0;
     Toolbar toolbar;
     CheckBox cbCheck;
-    Button btnApply, btnCancel;
+    Button btnApply, btnCancel, btnTimeSheet;
     View viewPayScale;
 
     private Subscription getSubscription;
@@ -114,6 +114,7 @@ public class JobDetail extends AppCompatActivity {
         tvNote = (TextView) findViewById(R.id.tvDetailNotes);
         btnApply = (Button) findViewById(R.id.btnDetailApply);
         btnCancel = (Button) findViewById(R.id.btnDetailCancel);
+        btnTimeSheet = findViewById(R.id.btnDetailTimeSheet);
         tvDateBanner = (TextView) findViewById(R.id.tvDateBanner);
         tvEmail = (TextView) findViewById(R.id.tvDetailEmail);
         tvPhone = (TextView) findViewById(R.id.tvDetailPhone);
@@ -160,6 +161,34 @@ public class JobDetail extends AppCompatActivity {
 
     public void setListeners() {
 
+        btnTimeSheet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(JobDetail.this, TimeSheet.class);
+
+                intent.putExtra("Title",strTitle);
+                intent.putExtra("Price", strPrice);
+                intent.putExtra("Dep", strDep);
+                intent.putExtra("Add", strAdd);
+                intent.putExtra("fDate", strFromDate);
+                intent.putExtra("tDate", strToDate);
+                intent.putExtra("sTime", strStartTime);
+                intent.putExtra("eTime", strEndTime);
+                intent.putExtra("jobId", strJobId);
+                intent.putExtra("Note", strNote);
+                intent.putExtra("payGrade", strPayGrade);
+                intent.putExtra("Grade", strGrade);
+                intent.putExtra("Email", strEmail);
+                intent.putExtra("Phone", strPhone);
+                intent.putExtra("status", intStatus);
+
+
+                startActivity(intent);
+
+            }
+        });
+
         btnApply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -180,6 +209,9 @@ public class JobDetail extends AppCompatActivity {
 
             }
         });
+
+
+
 
         cbCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

@@ -32,6 +32,7 @@
 
 
         <TextView
+            android:id="@+id/tvGradeFragTwo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -85,6 +86,7 @@
                     android:layout_marginTop="10dp"/>
 
                 <TextView
+                    android:id="@+id/tvPriceFragTwo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -132,6 +134,7 @@
                         android:textStyle="normal"/>
 
                     <EditText
+                        android:id="@+id/etStartTimeFragTwo"
                         android:layout_width="80dp"
                         android:layout_height="wrap_content"
                         android:gravity="center"
@@ -163,6 +166,7 @@
                         android:textStyle="normal"/>
 
                     <EditText
+                        android:id="@+id/etEndTimeFragTwo"
                         android:layout_width="80dp"
                         android:layout_height="wrap_content"
                         android:gravity="center"
