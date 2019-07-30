@@ -5,10 +5,12 @@ import com.adaxiom.models.ModelJobList;
 import com.adaxiom.models.ModelLogin;
 import com.adaxiom.models.ModelMyShifts;
 import com.adaxiom.models.ModelRegister;
+import com.adaxiom.models.ModelUpdateJob;
 import com.adaxiom.network.BackendConnector;
 
 import java.util.List;
 
+import okhttp3.MultipartBody;
 import rx.Observable;
 import rx.Subscriber;
 import rx.schedulers.Schedulers;
@@ -226,6 +228,36 @@ public class GeneralDownloader extends BaseContentDownloader<BackendConnector.Ge
 
                             @Override
                             public void onNext(List<ModelMyShifts> authResponse) {
+                                subscriber.onNext(authResponse);
+                            }
+                        });
+            }
+        });
+    }
+
+
+
+    public Observable<ModelUpdateJob> UpdateShift(final int jobid, final String extraHours, final String field1, final String field2, final MultipartBody img) {
+
+        return Observable.create(new Observable.OnSubscribe<ModelUpdateJob>() {
+            @Override
+            public void call(final Subscriber<? super ModelUpdateJob> subscriber) {
+                beConnector.UpdateShift(jobid, extraHours, field1, field2, img)
+                        .subscribeOn(Schedulers.newThread())
+                        .observeOn(Schedulers.newThread())
+                        .subscribe(new Subscriber<ModelUpdateJob>() {
+                            @Override
+                            public void onCompleted() {
+                                subscriber.onCompleted();
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                subscriber.onError(e);
+                            }
+
+                            @Override
+                            public void onNext(ModelUpdateJob authResponse) {
                                 subscriber.onNext(authResponse);
                             }
                         });

@@ -7,11 +7,13 @@ import com.adaxiom.models.ModelJobList;
 import com.adaxiom.models.ModelLogin;
 import com.adaxiom.models.ModelMyShifts;
 import com.adaxiom.models.ModelRegister;
+import com.adaxiom.models.ModelUpdateJob;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 
 import java.io.File;
 import java.util.List;
 
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -144,7 +146,7 @@ public class RetrofitConnector implements BackendConnector, BackendConnector.Gen
     }
 
     @Override
-    public Observable<List<ModelMyShifts>> UpdateShift(int jobid, String extraHours, String field1, String field2, File img) {
+    public Observable<ModelUpdateJob> UpdateShift(int jobid, String extraHours, String field1, String field2, MultipartBody img) {
         return calls.UpdateJobShift(jobid, extraHours, field1, field2, img);
     }
 

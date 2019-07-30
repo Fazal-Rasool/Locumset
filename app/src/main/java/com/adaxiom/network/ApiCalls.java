@@ -5,6 +5,7 @@ import com.adaxiom.models.ModelJobList;
 import com.adaxiom.models.ModelLogin;
 import com.adaxiom.models.ModelMyShifts;
 import com.adaxiom.models.ModelRegister;
+import com.adaxiom.models.ModelUpdateJob;
 
 import java.util.List;
 
@@ -97,7 +98,7 @@ public interface ApiCalls {
 
     @FormUrlEncoded
     @POST(API_UPDATE_JOB_SHIFT)
-    Observable<ModelLogin> UpdateJobShift(
+    Observable<ModelUpdateJob> UpdateJobShift(
             @Field("job_id") int jobId,
             @Field("extra_hours") String extraHours,
             @Field("field_1") String field1,

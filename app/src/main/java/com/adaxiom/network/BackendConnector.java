@@ -7,10 +7,13 @@ import com.adaxiom.models.ModelJobList;
 import com.adaxiom.models.ModelLogin;
 import com.adaxiom.models.ModelMyShifts;
 import com.adaxiom.models.ModelRegister;
+import com.adaxiom.models.ModelUpdateJob;
 
 import java.io.File;
 import java.util.List;
 
+import okhttp3.MultipartBody;
+import retrofit2.http.Multipart;
 import rx.Observable;
 
 
@@ -37,7 +40,7 @@ public interface BackendConnector {
 
         Observable<List<ModelMyShifts>> GetAppliedJobs(int userId);
 
-        Observable<List<ModelMyShifts>> UpdateShift(int jobid, String extraHours, String field1, String field2, File img);
+        Observable<ModelUpdateJob> UpdateShift(int jobid, String extraHours, String field1, String field2, MultipartBody img);
 
 //
 //        Observable<List<RM_MatchActive>> matchActive();
