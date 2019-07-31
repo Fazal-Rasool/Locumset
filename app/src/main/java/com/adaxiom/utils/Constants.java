@@ -14,4 +14,8 @@ public interface Constants {
     String API_JOB_LIST = "get_all_jobs/{user_id}";
     String API_APPLIED_JOB = "get_applied_jobs/{user_id}";
     String API_UPDATE_JOB_SHIFT = "update_job_shift";
+
+
+
+//    String API_UPDATE_JOB_SHIFT = "pref_";
 }

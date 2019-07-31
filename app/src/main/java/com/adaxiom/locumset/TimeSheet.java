@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.adaxiom.fragments.FragAllJobs;
 import com.adaxiom.fragments.FragMyProfile;
@@ -89,6 +90,10 @@ public class TimeSheet extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+//                Toast.makeText(TimeSheet.this, viewPager.getCurrentItem()+"",Toast.LENGTH_SHORT).show();
+                if(viewPager.getCurrentItem()+1 == 4){
+                    btnNext.setText("Done");
+                }
                 viewPager.setCurrentItem(getItem(+1), true);
             }
         });

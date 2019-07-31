@@ -24,6 +24,11 @@ public class FragTimeSheetFive extends Fragment {
     View view;
     TextView tvDone;
     private View avLoading;
+    FragTimeSheetOne fragOne;
+    FragTimeSheetTwo fragTwo;
+    FragTimeSheetThree fragThree;
+    FragTimeSheetFour fragFour;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -34,6 +39,13 @@ public class FragTimeSheetFive extends Fragment {
 
 
         return view;
+    }
+
+
+    public void getDataFromFragments(){
+
+
+
     }
 
     public void setViews(){
