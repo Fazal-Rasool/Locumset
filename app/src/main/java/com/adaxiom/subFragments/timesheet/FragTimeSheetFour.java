@@ -17,8 +17,11 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.adaxiom.locumset.R;
+import com.adaxiom.locumset.TimeSheet;
 import com.adaxiom.utils.RuntimePermissions;
+import com.adaxiom.utils.Utilities;
 import com.github.gcacace.signaturepad.views.SignaturePad;
+import com.pixplicity.easyprefs.library.Prefs;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -26,13 +29,17 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import static com.adaxiom.utils.Constants.PREF_SIGNATURE;
+
 
 public class FragTimeSheetFour extends Fragment {
 
     View view;
     SignaturePad signaturePad;
-    View btnSaveSign;
+    View btnSaveSign, btnClearSign;
     public static String postImagePath ="";
+    Utilities utilities = new Utilities();
+    TimeSheet timeSheet;
 
 
     @Override
@@ -51,6 +58,7 @@ public class FragTimeSheetFour extends Fragment {
 
         signaturePad = view.findViewById(R.id.signature_pad);
         btnSaveSign = view.findViewById(R.id.tvSaveSignFragFour);
+        btnClearSign = view.findViewById(R.id.tvClearSignFragFour);
 
         signaturePad.setOnSignedListener(new SignaturePad.OnSignedListener() {
             @Override
@@ -70,13 +78,26 @@ public class FragTimeSheetFour extends Fragment {
         });
 
 
+        btnClearSign.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                signaturePad.clear();
+            }
+        });
+
+
         btnSaveSign.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (RuntimePermissions.checkPermission(getActivity())) {
                     Bitmap signatureBitmap = signaturePad.getSignatureBitmap();
                     Uri tempUri = getImageUri(getActivity(), signatureBitmap);
-                    postImagePath = getImageRealPath(getActivity(), tempUri);
+//
+//                    utilities.setImagePath(postImagePath);
+//                    timeSheet.setImagePath(postImagePath);
+
+//                    Prefs.putString(PREF_SIGNATURE, postImagePath);
 
                     Toast.makeText(getActivity(), "Signature Saved", Toast.LENGTH_LONG).show();
 //                    if (addJpgSignatureToGallery(signatureBitmap)) {
@@ -92,7 +113,20 @@ public class FragTimeSheetFour extends Fragment {
 
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.e("Frag","4 Pause");
+    }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isVisibleToUser){
+//            Toast.makeText(getActivity(), "4", Toast.LENGTH_SHORT).show();
+//            utilities.setImagePath(postImagePath);
+        }
+    }
 
     public Uri getImageUri(Context inContext, Bitmap inImage) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();

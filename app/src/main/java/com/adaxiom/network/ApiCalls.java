@@ -7,6 +7,7 @@ import com.adaxiom.models.ModelMyShifts;
 import com.adaxiom.models.ModelRegister;
 import com.adaxiom.models.ModelUpdateJob;
 
+import java.io.File;
 import java.util.List;
 
 import okhttp3.Call;
@@ -14,6 +15,7 @@ import okhttp3.MultipartBody;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
@@ -97,13 +99,14 @@ public interface ApiCalls {
 
 
     @FormUrlEncoded
+//    @Multipart
     @POST(API_UPDATE_JOB_SHIFT)
     Observable<ModelUpdateJob> UpdateJobShift(
             @Field("job_id") int jobId,
             @Field("extra_hours") String extraHours,
             @Field("field_1") String field1,
-            @Field("field_2") String field2,
-            @Part MultipartBody image
+            @Field("field_2") String field2
+//            @Part("image") File image
     );
 
 

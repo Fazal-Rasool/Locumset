@@ -72,8 +72,8 @@ public class MainActivity extends AppCompatActivity {
                                 return true;
                             case R.id.nav_time_sheet:
                                 tabNum = 3;
-                                Intent intent = new Intent(MainActivity.this, TimeSheet.class);
-                                startActivity(intent);
+//                                Intent intent = new Intent(MainActivity.this, TimeSheet.class);
+//                                startActivity(intent);
 //                                loadFragment(new FragTimeSheet());
 //                                setToolbarTitle("Time Sheet");
                                 return true;

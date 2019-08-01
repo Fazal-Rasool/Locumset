@@ -2,11 +2,13 @@ package com.adaxiom.utils;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.ContextWrapper;
 
 import com.adaxiom.manager.DownloaderManager;
 import com.adaxiom.network.BackendConnector;
 import com.adaxiom.network.RetrofitConnector;
 import com.facebook.stetho.Stetho;
+import com.pixplicity.easyprefs.library.Prefs;
 
 import static com.adaxiom.utils.Constants.BASE_URL_LIVE;
 
@@ -33,6 +35,17 @@ public class Locumset extends Application {
         sInstance=this;
 
         Stetho.initializeWithDefaults(this);
+
+
+        //EasyPreferences Library
+        new Prefs.Builder()
+                .setContext(this)
+                .setMode(ContextWrapper.MODE_PRIVATE)
+                .setPrefsName(getPackageName())
+                .setUseDefaultSharedPreference(true)
+                .build();
+
+
 
         connector = new RetrofitConnector();
         connector.setupConnector(BASE_URL_LIVE, BASE_URL_LIVE);

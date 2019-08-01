@@ -17,5 +17,7 @@ public interface Constants {
 
 
 
-//    String API_UPDATE_JOB_SHIFT = "pref_";
+    String PREF_TOTAL_AMOUNT = "pref_total_amount";
+    String PREF_BREAK_TIME = "pref_break_time";
+    String PREF_SIGNATURE = "pref_sign";
 }

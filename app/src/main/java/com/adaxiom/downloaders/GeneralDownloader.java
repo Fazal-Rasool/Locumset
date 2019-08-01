@@ -237,12 +237,12 @@ public class GeneralDownloader extends BaseContentDownloader<BackendConnector.Ge
 
 
 
-    public Observable<ModelUpdateJob> UpdateShift(final int jobid, final String extraHours, final String field1, final String field2, final MultipartBody img) {
+    public Observable<ModelUpdateJob> UpdateShift(final int jobid, final String extraHours, final String field1, final String field2) {
 
         return Observable.create(new Observable.OnSubscribe<ModelUpdateJob>() {
             @Override
             public void call(final Subscriber<? super ModelUpdateJob> subscriber) {
-                beConnector.UpdateShift(jobid, extraHours, field1, field2, img)
+                beConnector.UpdateShift(jobid, extraHours, field1, field2)
                         .subscribeOn(Schedulers.newThread())
                         .observeOn(Schedulers.newThread())
                         .subscribe(new Subscriber<ModelUpdateJob>() {

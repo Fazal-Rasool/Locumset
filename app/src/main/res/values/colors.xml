@@ -9,6 +9,7 @@
     <color name="white">#fff</color>
     <color name="light_black">#4F4E4E</color>
     <color name="light_pink">#F6A0A0</color>
+    <color name="light_parrot">#FF5722</color>
     <color name="transparent_grey">#66CBCBCB</color>
 
 </resources>

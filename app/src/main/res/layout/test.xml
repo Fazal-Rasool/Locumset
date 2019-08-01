@@ -294,10 +294,11 @@
                         android:layout_height="50dp"
                         android:layout_gravity="center"
                         android:layout_marginTop="10dp"
-                        android:background="@color/light_pink"
+                        android:background="@drawable/customborder_button_timesheet"
                         android:clickable="false"
                         android:text="Add to TimeSheet"
                         android:textAllCaps="false"
+                        android:visibility="gone"
                         android:textColor="#fff"
                         android:textSize="18dp" />
 
@@ -313,7 +314,7 @@
                         android:clickable="false"
                         android:text="Apply"
                         android:textColor="#fff"
-                        android:visibility="gone"
+                        android:visibility="visible"
                         android:textSize="18dp" />
 
                     <Button

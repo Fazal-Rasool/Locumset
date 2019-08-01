@@ -85,7 +85,7 @@
                     android:orientation="vertical">
 
                     <EditText
-                        android:id="@+id/tvDateFragFive"
+                        android:id="@+id/etDateFragFive"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -100,7 +100,7 @@
                         android:textStyle="bold" />
 
                     <EditText
-                        android:id="@+id/tvTimeFragFive"
+                        android:id="@+id/etTimeFragFive"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -145,7 +145,7 @@
                 android:background="@color/dark_grey" />
 
             <TextView
-                android:id="@+id/tvDetailPrice"
+                android:id="@+id/tvPriceFragFive"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -206,6 +206,7 @@
                 android:padding="10dp">
 
                 <ImageView
+                    android:id="@+id/ivSignFragFive"
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
                     android:background="@drawable/box_time_sheet_two" />

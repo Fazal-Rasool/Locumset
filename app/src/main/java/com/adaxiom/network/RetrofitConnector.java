@@ -146,8 +146,8 @@ public class RetrofitConnector implements BackendConnector, BackendConnector.Gen
     }
 
     @Override
-    public Observable<ModelUpdateJob> UpdateShift(int jobid, String extraHours, String field1, String field2, MultipartBody img) {
-        return calls.UpdateJobShift(jobid, extraHours, field1, field2, img);
+    public Observable<ModelUpdateJob> UpdateShift(int jobid, String extraHours, String field1, String field2) {
+        return calls.UpdateJobShift(jobid, extraHours, field1, field2);
     }
 
 //    @Override

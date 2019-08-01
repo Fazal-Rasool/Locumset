@@ -149,6 +149,12 @@ public class JobDetail extends AppCompatActivity {
             btnCancel.setVisibility(View.VISIBLE);
         }
 
+        if (intStatus == 4 || intStatus == 5) {
+            btnTimeSheet.setVisibility(View.VISIBLE);
+            btnApply.setVisibility(View.GONE);
+            btnCancel.setVisibility(View.GONE);
+        }
+
 
         if (strPayGrade.equalsIgnoreCase("")) {
             viewPayScale.setVisibility(View.GONE);
@@ -165,26 +171,7 @@ public class JobDetail extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(JobDetail.this, TimeSheet.class);
 
-                intent.putExtra("Title",strTitle);
-                intent.putExtra("Price", strPrice);
-                intent.putExtra("Dep", strDep);
-                intent.putExtra("Add", strAdd);
-                intent.putExtra("fDate", strFromDate);
-                intent.putExtra("tDate", strToDate);
-                intent.putExtra("sTime", strStartTime);
-                intent.putExtra("eTime", strEndTime);
-                intent.putExtra("jobId", strJobId);
-                intent.putExtra("Note", strNote);
-                intent.putExtra("payGrade", strPayGrade);
-                intent.putExtra("Grade", strGrade);
-                intent.putExtra("Email", strEmail);
-                intent.putExtra("Phone", strPhone);
-                intent.putExtra("status", intStatus);
-
-
-                startActivity(intent);
 
             }
         });
@@ -211,6 +198,53 @@ public class JobDetail extends AppCompatActivity {
         });
 
 
+        btnTimeSheet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (intStatus == 4) {
+                    Intent intent = new Intent(JobDetail.this, TimeSheet.class);
+
+                    intent.putExtra("Title", strTitle);
+                    intent.putExtra("Price", strPrice);
+                    intent.putExtra("Dep", strDep);
+                    intent.putExtra("Add", strAdd);
+                    intent.putExtra("fDate", strFromDate);
+                    intent.putExtra("tDate", strToDate);
+                    intent.putExtra("sTime", strStartTime);
+                    intent.putExtra("eTime", strEndTime);
+                    intent.putExtra("jobId", strJobId);
+                    intent.putExtra("Note", strNote);
+                    intent.putExtra("payGrade", strPayGrade);
+                    intent.putExtra("Grade", strGrade);
+                    intent.putExtra("Email", strEmail);
+                    intent.putExtra("Phone", strPhone);
+                    intent.putExtra("status", intStatus);
+
+                    startActivity(intent);
+                    Toast.makeText(JobDetail.this, "Please wait untill job complete", Toast.LENGTH_SHORT).show();
+                } else if (intStatus == 5) {
+                    Intent intent = new Intent(JobDetail.this, TimeSheet.class);
+
+                    intent.putExtra("Title", strTitle);
+                    intent.putExtra("Price", strPrice);
+                    intent.putExtra("Dep", strDep);
+                    intent.putExtra("Add", strAdd);
+                    intent.putExtra("fDate", strFromDate);
+                    intent.putExtra("tDate", strToDate);
+                    intent.putExtra("sTime", strStartTime);
+                    intent.putExtra("eTime", strEndTime);
+                    intent.putExtra("jobId", strJobId);
+                    intent.putExtra("Note", strNote);
+                    intent.putExtra("payGrade", strPayGrade);
+                    intent.putExtra("Grade", strGrade);
+                    intent.putExtra("Email", strEmail);
+                    intent.putExtra("Phone", strPhone);
+                    intent.putExtra("status", intStatus);
+
+                    startActivity(intent);
+                }
+            }
+        });
 
 
         cbCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -426,8 +460,6 @@ public class JobDetail extends AppCompatActivity {
                         });
                     }
                 });
-
-
 
 
 //        final ProgressDialog progressDialog = ProgressDialog.show(this, "", " Please wait");

@@ -68,6 +68,7 @@ public class FragAllJobs extends Fragment {
     public void onResume() {
         super.onResume();
 
+        listHome.clear();
         API_GetJobsLis();
     }
 

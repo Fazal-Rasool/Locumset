@@ -116,6 +116,18 @@ public class RA_MyShifts extends RecyclerView.Adapter<RA_MyShifts.ViewHolder> {
             viewHolder.tvLable.setBackgroundResource(R.drawable.lable_cancel);
             viewHolder.tvLable.setText("Canceled");
 
+        }else if(list.get(position).status==4){
+
+            viewHolder.panel.setBackgroundResource( R.drawable.border_my_shift_timesheet);
+            viewHolder.tvLable.setBackgroundResource(R.drawable.lable_timesheet);
+            viewHolder.tvLable.setText("TimeSheet");
+
+        }else if(list.get(position).status==5){
+
+            viewHolder.panel.setBackgroundResource( R.drawable.border_my_shift_timesheet);
+            viewHolder.tvLable.setBackgroundResource(R.drawable.lable_timesheet);
+            viewHolder.tvLable.setText("TimeSheet");
+
         }
 
 
