@@ -21,4 +21,20 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
+
+
+
+
+    <string-array name="array_grades">
+    <item>Foundation Year 1</item>
+    <item>Foundation Year 2</item>
+    <item>Senior House Officer/SP1-2/Core Trainee</item>
+    <item>Specialty Registrar(SP3+)</item>
+    <item>Resident Medical Officer</item>
+    <item>Specialty Doctor</item>
+        <item>Associate Specialist</item>
+        <item>Consultant</item>
+        <item>General Practitioner</item>
+    </string-array>
+
 </resources>

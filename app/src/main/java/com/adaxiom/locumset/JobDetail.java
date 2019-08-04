@@ -2,7 +2,6 @@ package com.adaxiom.locumset;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -26,8 +25,6 @@ import android.widget.Toast;
 
 import com.adaxiom.manager.DownloaderManager;
 import com.adaxiom.models.ModelJobApply;
-import com.adaxiom.models.ModelLogin;
-import com.adaxiom.network.ApiCalls;
 import com.adaxiom.utils.SharedPrefrence;
 
 import java.text.ParseException;
@@ -60,7 +57,7 @@ public class JobDetail extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.test);
+        setContentView(R.layout.activity_job_detail);
 
         getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -202,28 +199,28 @@ public class JobDetail extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (intStatus == 4) {
-                    Intent intent = new Intent(JobDetail.this, TimeSheet.class);
-
-                    intent.putExtra("Title", strTitle);
-                    intent.putExtra("Price", strPrice);
-                    intent.putExtra("Dep", strDep);
-                    intent.putExtra("Add", strAdd);
-                    intent.putExtra("fDate", strFromDate);
-                    intent.putExtra("tDate", strToDate);
-                    intent.putExtra("sTime", strStartTime);
-                    intent.putExtra("eTime", strEndTime);
-                    intent.putExtra("jobId", strJobId);
-                    intent.putExtra("Note", strNote);
-                    intent.putExtra("payGrade", strPayGrade);
-                    intent.putExtra("Grade", strGrade);
-                    intent.putExtra("Email", strEmail);
-                    intent.putExtra("Phone", strPhone);
-                    intent.putExtra("status", intStatus);
-
-                    startActivity(intent);
+//                    Intent intent = new Intent(JobDetail.this, TimeSheetNew.class);
+//
+//                    intent.putExtra("Title", strTitle);
+//                    intent.putExtra("Price", strPrice);
+//                    intent.putExtra("Dep", strDep);
+//                    intent.putExtra("Add", strAdd);
+//                    intent.putExtra("fDate", strFromDate);
+//                    intent.putExtra("tDate", strToDate);
+//                    intent.putExtra("sTime", strStartTime);
+//                    intent.putExtra("eTime", strEndTime);
+//                    intent.putExtra("jobId", strJobId);
+//                    intent.putExtra("Note", strNote);
+//                    intent.putExtra("payGrade", strPayGrade);
+//                    intent.putExtra("Grade", strGrade);
+//                    intent.putExtra("Email", strEmail);
+//                    intent.putExtra("Phone", strPhone);
+//                    intent.putExtra("status", intStatus);
+//
+//                    startActivity(intent);
                     Toast.makeText(JobDetail.this, "Please wait untill job complete", Toast.LENGTH_SHORT).show();
                 } else if (intStatus == 5) {
-                    Intent intent = new Intent(JobDetail.this, TimeSheet.class);
+                    Intent intent = new Intent(JobDetail.this, TimeSheetNew.class);
 
                     intent.putExtra("Title", strTitle);
                     intent.putExtra("Price", strPrice);

@@ -20,8 +20,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup">
-        <activity android:name=".TimeSheet"
+        <activity android:name=".TimeSheetNew"
             android:theme="@style/AppThemeActionBar"></activity>
+        <activity
+            android:name=".TimeSheet"
+            android:theme="@style/AppThemeActionBar" />
         <activity
             android:name=".MainActivity"
             android:theme="@style/AppThemeActionBar">
