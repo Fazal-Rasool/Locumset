@@ -105,9 +105,11 @@ public interface ApiCalls {
             @Field("job_id") int jobId,
             @Field("extra_hours") String extraHours,
             @Field("field_1") String field1,
-            @Field("field_2") String field2
-//            @Part("image") File image
+            @Field("field_2") String field2,
+            @Field("image") String image
     );
+
+
 
 
 //    @Multipart

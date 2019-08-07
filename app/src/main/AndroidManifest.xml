@@ -19,6 +19,7 @@
         android:roundIcon="@mipmap/launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
         tools:replace="android:allowBackup">
         <activity android:name=".TimeSheetNew"
             android:theme="@style/AppThemeActionBar"></activity>

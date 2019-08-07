@@ -153,7 +153,7 @@ public class FragTimeSheetFive extends Fragment {
 
         avLoading.setVisibility(View.VISIBLE);
 
-        DownloaderManager.getGeneralDownloader().UpdateShift(jobId, "0", totalAmount+"", "0")
+        DownloaderManager.getGeneralDownloader().UpdateShift(jobId, "0", totalAmount+"", "0","")
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(Schedulers.newThread())
                 .subscribe(new Subscriber<ModelUpdateJob>() {

@@ -8,9 +8,11 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -41,6 +43,7 @@ public class TimeSheetNew extends AppCompatActivity implements View.OnClickListe
     SignaturePad signaturePad;
     Button btnSubmit;
 
+    EditText etComments;
 
     String strTitle, strPrice, strDep, strAdd, strFromDate,
             strStartTime, strJobId, strNote, strEndTime, strFlag,
@@ -52,6 +55,7 @@ public class TimeSheetNew extends AppCompatActivity implements View.OnClickListe
     DatabaseHelper dbHelper;
 
     private View avLoading;
+    String base64Image;
 
 
     @Override
@@ -113,6 +117,8 @@ public class TimeSheetNew extends AppCompatActivity implements View.OnClickListe
         tvBreakTime = findViewById(R.id.tvBreakTimeSheetNew);
         tvGMC = findViewById(R.id.tvGMCTimeSheetNew);
         btnSubmit = findViewById(R.id.btnSubmitTimeSheetNew);
+
+        etComments = findViewById(R.id.etCommetsTimeSheetNew);
 
         avLoading = findViewById(R.id.avLoadingView);
 
@@ -184,6 +190,12 @@ public class TimeSheetNew extends AppCompatActivity implements View.OnClickListe
                     Bitmap signatureBitmap = signaturePad.getSignatureBitmap();
                     Uri tempUri = getImageUri(TimeSheetNew.this, signatureBitmap);
                     postImagePath = getImageRealPath(TimeSheetNew.this, tempUri);
+
+                    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                    signatureBitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+                    byte[] byteArray = byteArrayOutputStream .toByteArray();
+                    base64Image = Base64.encodeToString(byteArray, Base64.DEFAULT);
+
                     Toast.makeText(TimeSheetNew.this, "Signature Saved", Toast.LENGTH_LONG).show();
                 } else {
                     RuntimePermissions.requestPermission(TimeSheetNew.this);
@@ -311,11 +323,12 @@ public class TimeSheetNew extends AppCompatActivity implements View.OnClickListe
     public void APIUpdateJob() {
 
         int userId = SharedPrefrence.getUserId(this);
+        String comm = etComments.getText().toString().trim();
 
 
         avLoading.setVisibility(View.VISIBLE);
 
-        DownloaderManager.getGeneralDownloader().UpdateShift(jobId, "0", total_amount+"", "0")
+        DownloaderManager.getGeneralDownloader().UpdateShift(jobId, "0", total_amount+"", comm, base64Image)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(Schedulers.newThread())
                 .subscribe(new Subscriber<ModelUpdateJob>() {

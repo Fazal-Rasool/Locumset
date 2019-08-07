@@ -40,7 +40,7 @@ public interface BackendConnector {
 
         Observable<List<ModelMyShifts>> GetAppliedJobs(int userId);
 
-        Observable<ModelUpdateJob> UpdateShift(int jobid, String extraHours, String field1, String field2);
+        Observable<ModelUpdateJob> UpdateShift(int jobid, String extraHours, String field1, String field2, String image);
 
 //
 //        Observable<List<RM_MatchActive>> matchActive();
