@@ -267,20 +267,20 @@
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
-                <TextView
+                <EditText
                     android:id="@+id/tvBreakTimeSheetNew"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:maxLines="1"
-                    android:text="30 Min"
+                    android:hint="00"
+                    android:background="@null"
                     android:textColor="@color/colorPrimary"
                     android:textSize="18sp"
                     android:textStyle="normal"
                     android:padding="10dp"
                     android:layout_gravity="right"
                     android:gravity="right"/>
-
 
             </LinearLayout>
 

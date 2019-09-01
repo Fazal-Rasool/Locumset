@@ -17,12 +17,14 @@ import android.widget.Toast;
 import com.adaxiom.adapters.RA_Home;
 import com.adaxiom.locumset.JobDetail;
 import com.adaxiom.locumset.Login;
+import com.adaxiom.locumset.MyProfile;
 import com.adaxiom.locumset.R;
 import com.adaxiom.manager.DownloaderManager;
 import com.adaxiom.models.ModelJobList;
 import com.adaxiom.models.ModelLogin;
 import com.adaxiom.network.ApiCalls;
 import com.adaxiom.utils.SharedPrefrence;
+import com.pixplicity.easyprefs.library.Prefs;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +32,9 @@ import java.util.List;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.schedulers.Schedulers;
+
+import static com.adaxiom.utils.Constants.PREF_BREAK_TIME;
+import static com.adaxiom.utils.Constants.PREF_COMPLETE_PROFILE;
 
 
 public class FragAllJobs extends Fragment {
@@ -88,6 +93,7 @@ public class FragAllJobs extends Fragment {
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                listHome.clear();
                 API_GetJobsLis();
             }
         });
@@ -113,26 +119,40 @@ public class FragAllJobs extends Fragment {
                     @Override
                     public void recyclerViewListClicked(View v, int position) {
 
-                        Intent intent = new Intent(getActivity(), JobDetail.class);
 
-                        intent.putExtra("Title", listHome.get(position).title);
-                        intent.putExtra("Price", listHome.get(position).price);
-                        intent.putExtra("Dep", listHome.get(position).department);
-                        intent.putExtra("Add", listHome.get(position).hospital_name);
-                        intent.putExtra("fDate", listHome.get(position).from_date);
-                        intent.putExtra("tDate", listHome.get(position).to_date);
-                        intent.putExtra("sTime", listHome.get(position).start_time);
-                        intent.putExtra("eTime", listHome.get(position).end_time);
-                        intent.putExtra("jobId", listHome.get(position).job_id);
-                        intent.putExtra("Note", listHome.get(position).note);
-                        intent.putExtra("payGrade", listHome.get(position).paygrade);
-                        intent.putExtra("Grade", listHome.get(position).grade);
-                        intent.putExtra("Email", listHome.get(position).email);
-                        intent.putExtra("Phone", listHome.get(position).phone_no);
-                        intent.putExtra("flag", "1");
-                        intent.putExtra("status", 1);
+                        String profileComplete = Prefs.getString(PREF_COMPLETE_PROFILE, "0");
 
-                        startActivity(intent);
+
+                        if(profileComplete.equalsIgnoreCase("1")) {
+
+                            Intent intent = new Intent(getActivity(), JobDetail.class);
+
+                            intent.putExtra("Title", listHome.get(position).title);
+                            intent.putExtra("Price", listHome.get(position).price);
+                            intent.putExtra("Dep", listHome.get(position).department);
+                            intent.putExtra("Add", listHome.get(position).hospital_name);
+                            intent.putExtra("fDate", listHome.get(position).from_date);
+                            intent.putExtra("tDate", listHome.get(position).to_date);
+                            intent.putExtra("sTime", listHome.get(position).start_time);
+                            intent.putExtra("eTime", listHome.get(position).end_time);
+                            intent.putExtra("jobId", listHome.get(position).job_id);
+                            intent.putExtra("Note", listHome.get(position).note);
+                            intent.putExtra("payGrade", listHome.get(position).paygrade);
+                            intent.putExtra("Grade", listHome.get(position).grade);
+                            intent.putExtra("Email", listHome.get(position).email);
+                            intent.putExtra("Phone", listHome.get(position).phone_no);
+                            intent.putExtra("flag", "1");
+                            intent.putExtra("status", 1);
+
+                            startActivity(intent);
+
+                        }else{
+
+                            Toast.makeText(getActivity(), "Please complete your profile first", Toast.LENGTH_SHORT).show();
+
+                            MyProfile.startActivity(getActivity());
+
+                        }
                     }
                 });
 

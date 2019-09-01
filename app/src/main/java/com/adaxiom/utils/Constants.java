@@ -20,4 +20,5 @@ public interface Constants {
     String PREF_TOTAL_AMOUNT = "pref_total_amount";
     String PREF_BREAK_TIME = "pref_break_time";
     String PREF_SIGNATURE = "pref_sign";
+    String PREF_COMPLETE_PROFILE = "pref_comp_profile";
 }

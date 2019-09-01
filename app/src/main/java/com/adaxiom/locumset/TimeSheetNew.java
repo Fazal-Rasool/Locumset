@@ -39,11 +39,11 @@ public class TimeSheetNew extends AppCompatActivity implements View.OnClickListe
 
 
     Spinner spGrade;
-    TextView btnClear, btnSave, tvPriceHour, tvStartTime, tvEndTime, tvTotalAmount, tvBreakTime, tvGMC;
+    TextView btnClear, btnSave, tvPriceHour, tvStartTime, tvEndTime, tvTotalAmount, tvGMC;
     SignaturePad signaturePad;
     Button btnSubmit;
 
-    EditText etComments;
+    EditText etComments, tvBreakTime;
 
     String strTitle, strPrice, strDep, strAdd, strFromDate,
             strStartTime, strJobId, strNote, strEndTime, strFlag,

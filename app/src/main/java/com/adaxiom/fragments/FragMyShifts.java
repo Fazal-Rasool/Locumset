@@ -16,12 +16,14 @@ import android.widget.Toast;
 
 import com.adaxiom.adapters.RA_MyShifts;
 import com.adaxiom.locumset.JobDetail;
+import com.adaxiom.locumset.MyProfile;
 import com.adaxiom.locumset.R;
 import com.adaxiom.manager.DownloaderManager;
 import com.adaxiom.models.ModelJobList;
 import com.adaxiom.models.ModelMyShifts;
 import com.adaxiom.network.ApiCalls;
 import com.adaxiom.utils.SharedPrefrence;
+import com.pixplicity.easyprefs.library.Prefs;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +32,8 @@ import java.util.List;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.schedulers.Schedulers;
+
+import static com.adaxiom.utils.Constants.PREF_COMPLETE_PROFILE;
 
 
 public class FragMyShifts extends Fragment {
@@ -66,7 +70,7 @@ public class FragMyShifts extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        SharedPrefrence.setFilter(getActivity(),"0");
+        SharedPrefrence.setFilter(getActivity(), "0");
     }
 
     public void createObjects() {
@@ -75,7 +79,7 @@ public class FragMyShifts extends Fragment {
 
     public void setViews() {
 
-        swipeContainer = (SwipeRefreshLayout)view.findViewById(R.id.swipeContainer_applyJobs);
+        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer_applyJobs);
         recyclerView = (RecyclerView) view.findViewById(R.id.reApplyJobs);
         avLoading = view.findViewById(R.id.avLoadingView);
     }
@@ -85,6 +89,7 @@ public class FragMyShifts extends Fragment {
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                listHome.clear();
                 API_GetJobsLis();
             }
         });
@@ -95,9 +100,7 @@ public class FragMyShifts extends Fragment {
                 android.R.color.holo_red_light);
 
 
-
     }
-
 
 
     public void setAdapter() {
@@ -112,26 +115,38 @@ public class FragMyShifts extends Fragment {
                     @Override
                     public void recyclerViewListClicked(View v, int position) {
 
-                        Intent intent = new Intent(getActivity(), JobDetail.class);
+                        String profileComplete = Prefs.getString(PREF_COMPLETE_PROFILE, "0");
 
-                        intent.putExtra("Title", listHome.get(position).title);
-                        intent.putExtra("Price", listHome.get(position).price);
-                        intent.putExtra("Dep", listHome.get(position).department);
-                        intent.putExtra("Add", listHome.get(position).hospital_name);
-                        intent.putExtra("fDate", listHome.get(position).from_date);
-                        intent.putExtra("tDate", listHome.get(position).to_date);
-                        intent.putExtra("sTime", listHome.get(position).start_time);
-                        intent.putExtra("eTime", listHome.get(position).end_time);
-                        intent.putExtra("jobId", listHome.get(position).job_id);
-                        intent.putExtra("Note", listHome.get(position).note);
-                        intent.putExtra("payGrade", listHome.get(position).paygrade);
-                        intent.putExtra("Grade", listHome.get(position).grade);
-                        intent.putExtra("Email", listHome.get(position).email);
-                        intent.putExtra("Phone", listHome.get(position).phone_no);
-                        intent.putExtra("flag", "2");
-                        intent.putExtra("status", listHome.get(position).status);
 
-                        startActivity(intent);
+                        if (profileComplete.equalsIgnoreCase("1")) {
+
+                            Intent intent = new Intent(getActivity(), JobDetail.class);
+
+                            intent.putExtra("Title", listHome.get(position).title);
+                            intent.putExtra("Price", listHome.get(position).price);
+                            intent.putExtra("Dep", listHome.get(position).department);
+                            intent.putExtra("Add", listHome.get(position).hospital_name);
+                            intent.putExtra("fDate", listHome.get(position).from_date);
+                            intent.putExtra("tDate", listHome.get(position).to_date);
+                            intent.putExtra("sTime", listHome.get(position).start_time);
+                            intent.putExtra("eTime", listHome.get(position).end_time);
+                            intent.putExtra("jobId", listHome.get(position).job_id);
+                            intent.putExtra("Note", listHome.get(position).note);
+                            intent.putExtra("payGrade", listHome.get(position).paygrade);
+                            intent.putExtra("Grade", listHome.get(position).grade);
+                            intent.putExtra("Email", listHome.get(position).email);
+                            intent.putExtra("Phone", listHome.get(position).phone_no);
+                            intent.putExtra("flag", "2");
+                            intent.putExtra("status", listHome.get(position).status);
+
+                            startActivity(intent);
+
+                        } else {
+
+                            Toast.makeText(getActivity(), "Please complete your profile first", Toast.LENGTH_SHORT).show();
+
+                            MyProfile.startActivity(getActivity());
+                        }
 
                     }
                 });
@@ -149,13 +164,10 @@ public class FragMyShifts extends Fragment {
 
         int userId = SharedPrefrence.getUserId(getActivity());
 
-        if (getSubscription != null) {
-            return;
-        }
 
         avLoading.setVisibility(View.VISIBLE);
 
-        getSubscription = DownloaderManager.getGeneralDownloader().GetAppliedJobs(userId)
+        DownloaderManager.getGeneralDownloader().GetAppliedJobs(userId)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(Schedulers.newThread())
                 .subscribe(new Subscriber<List<ModelMyShifts>>() {
@@ -171,6 +183,7 @@ public class FragMyShifts extends Fragment {
                             @Override
                             public void run() {
                                 avLoading.setVisibility(View.GONE);
+                                swipeContainer.setRefreshing(false);
                                 Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_LONG).show();
                             }
                         });
@@ -183,6 +196,7 @@ public class FragMyShifts extends Fragment {
                             @Override
                             public void run() {
                                 avLoading.setVisibility(View.GONE);
+                                swipeContainer.setRefreshing(false);
                                 listHome.addAll(listJob);
                                 if (listHome.size() != 0) {
                                     setAdapter();

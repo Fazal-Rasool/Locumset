@@ -57,6 +57,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".JobDetail" />
+        <activity android:name=".MyProfile" />
 
         <service android:name="com.adaxiom.firebase.FirebaseInstanceIDService">
             <intent-filter>

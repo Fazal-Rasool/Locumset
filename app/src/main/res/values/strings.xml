@@ -23,6 +23,21 @@
 
 
 
+    <string-array name="array_hospital">
+        <item>Pool Hospital NHS</item>
+        <item>abc</item>
+    </string-array>
+
+
+
+    <string-array name="array_departments">
+        <item>Foundation Year 1</item>
+        <item>Foundation Year 2</item>
+        <item>Foundation Year 3</item>
+        <item>Foundation Year 4</item>
+    </string-array>
+
+
 
 
     <string-array name="array_grades">
