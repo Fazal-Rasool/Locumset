@@ -104,8 +104,7 @@
                     android:layout_gravity="right"
                     android:layout_height="wrap_content"
                     android:background="@drawable/border_my_shift"
-                    android:padding="10dp"
-                    android:entries="@array/array_hospital"/>
+                    android:padding="10dp"/>
 
             </LinearLayout>
 
@@ -130,13 +129,12 @@
 
 
                 <Spinner
-                    android:id="@+id/spGrade_TimeSheetNew"
+                    android:id="@+id/spDep_MyProfile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
                     android:background="@drawable/border_my_shift"
-                    android:layout_gravity="right"
-                    android:entries="@array/array_departments"/>
+                    android:layout_gravity="right"/>
 
             </LinearLayout>
 

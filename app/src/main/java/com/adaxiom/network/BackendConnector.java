@@ -2,6 +2,8 @@ package com.adaxiom.network;
 
 
 
+import com.adaxiom.models.ModelDepList;
+import com.adaxiom.models.ModelHospitalList;
 import com.adaxiom.models.ModelJobApply;
 import com.adaxiom.models.ModelJobList;
 import com.adaxiom.models.ModelLogin;
@@ -42,6 +44,9 @@ public interface BackendConnector {
 
         Observable<ModelUpdateJob> UpdateShift(int jobid, String extraHours, String field1, String field2, String image);
 
+        Observable<List<ModelDepList>> GetDepList();
+
+        Observable<List<ModelHospitalList>> GetHospitalList();
 //
 //        Observable<List<RM_MatchActive>> matchActive();
 //

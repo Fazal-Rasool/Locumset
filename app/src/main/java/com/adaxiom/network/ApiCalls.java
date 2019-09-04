@@ -1,5 +1,7 @@
 package com.adaxiom.network;
 
+import com.adaxiom.models.ModelDepList;
+import com.adaxiom.models.ModelHospitalList;
 import com.adaxiom.models.ModelJobApply;
 import com.adaxiom.models.ModelJobList;
 import com.adaxiom.models.ModelLogin;
@@ -24,7 +26,9 @@ import rx.Observable;
 import static com.adaxiom.utils.Constants.API_APPLIED_JOB;
 import static com.adaxiom.utils.Constants.API_APPLY_JOB;
 import static com.adaxiom.utils.Constants.API_CANCEL_JOB;
+import static com.adaxiom.utils.Constants.API_DEP_LIST;
 import static com.adaxiom.utils.Constants.API_FORGOT_PASS;
+import static com.adaxiom.utils.Constants.API_HOSPITAL_LIST;
 import static com.adaxiom.utils.Constants.API_JOB_LIST;
 import static com.adaxiom.utils.Constants.API_LOGIN;
 import static com.adaxiom.utils.Constants.API_SIGN_UP;
@@ -110,15 +114,24 @@ public interface ApiCalls {
     );
 
 
+    @GET(API_DEP_LIST)
+    Observable<List<ModelDepList>> GetDepList();
 
 
-//    @Multipart
-//    @POST("update_user_profile")
-//    Observable<ModelRegister> UpdateMyProfile(@Part("user_id") int user_id,
-//                                   @Part("phone_no") String phone,
-//                                   @Part MultipartBody image_3
-//
-//    );
+
+    @GET(API_HOSPITAL_LIST)
+    Observable<List<ModelHospitalList>> GetHospitalList();
+
+
+
+
+    @Multipart
+    @POST("update_user_profile")
+    Observable<ModelRegister> UpdateMyProfile(@Part("user_id") int user_id,
+                                   @Part("phone_no") String phone,
+                                   @Part MultipartBody image_3
+
+    );
 
 
 

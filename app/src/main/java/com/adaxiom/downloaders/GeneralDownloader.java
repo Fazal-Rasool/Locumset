@@ -1,5 +1,7 @@
 package com.adaxiom.downloaders;
 
+import com.adaxiom.models.ModelDepList;
+import com.adaxiom.models.ModelHospitalList;
 import com.adaxiom.models.ModelJobApply;
 import com.adaxiom.models.ModelJobList;
 import com.adaxiom.models.ModelLogin;
@@ -266,6 +268,65 @@ public class GeneralDownloader extends BaseContentDownloader<BackendConnector.Ge
         });
     }
 
+
+
+    public Observable<List<ModelDepList>> GetDepList() {
+
+        return Observable.create(new Observable.OnSubscribe<List<ModelDepList>>() {
+            @Override
+            public void call(final Subscriber<? super List<ModelDepList>> subscriber) {
+                beConnector.GetDepList()
+                        .subscribeOn(Schedulers.newThread())
+                        .observeOn(Schedulers.newThread())
+                        .subscribe(new Subscriber<List<ModelDepList>>() {
+                            @Override
+                            public void onCompleted() {
+                                subscriber.onCompleted();
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                subscriber.onError(e);
+                            }
+
+                            @Override
+                            public void onNext(List<ModelDepList> authResponse) {
+                                subscriber.onNext(authResponse);
+                            }
+                        });
+            }
+        });
+    }
+
+
+
+    public Observable<List<ModelHospitalList>> GetHospitalList() {
+
+        return Observable.create(new Observable.OnSubscribe<List<ModelHospitalList>>() {
+            @Override
+            public void call(final Subscriber<? super List<ModelHospitalList>> subscriber) {
+                beConnector.GetHospitalList()
+                        .subscribeOn(Schedulers.newThread())
+                        .observeOn(Schedulers.newThread())
+                        .subscribe(new Subscriber<List<ModelHospitalList>>() {
+                            @Override
+                            public void onCompleted() {
+                                subscriber.onCompleted();
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                subscriber.onError(e);
+                            }
+
+                            @Override
+                            public void onNext(List<ModelHospitalList> authResponse) {
+                                subscriber.onNext(authResponse);
+                            }
+                        });
+            }
+        });
+    }
 
 
 //    public Observable<List<RM_MatchActive>> API_MatchActive() {

@@ -12,18 +12,31 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toolbar;
 
 import com.adaxiom.database.DatabaseHelper;
+import com.adaxiom.models.ModelDepList;
+import com.adaxiom.models.ModelHospitalList;
 import com.adaxiom.models.ModelUser;
 import com.adaxiom.utils.RuntimePermissions;
 import com.adaxiom.utils.SharedPrefrence;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.pixplicity.easyprefs.library.Prefs;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.adaxiom.utils.Constants.PREF_DEP_LIST;
+import static com.adaxiom.utils.Constants.PREF_HOS_LIST;
 
 
 public class MyProfile extends AppCompatActivity {
@@ -40,6 +53,8 @@ public class MyProfile extends AppCompatActivity {
 
     android.support.v4.app.FragmentManager mFragmentManager;
     android.support.v4.app.FragmentTransaction mFragmentTransaction;
+
+    Spinner spDep, spHos;
 
     static String imagePath="";
 
@@ -90,6 +105,8 @@ public class MyProfile extends AppCompatActivity {
 
         tvName = (TextView) findViewById(R.id.tv_myProfileName);
         tvGmcNum = (TextView) findViewById(R.id.tv_myProfileGmcNum);
+        spDep = findViewById(R.id.spDep_MyProfile);
+        spHos = findViewById(R.id.spHospital_MyProfile);
         ivProfile = (ImageView) findViewById(R.id.iv_myProfile);
 
         ivProfile.setOnClickListener(new View.OnClickListener() {
@@ -129,6 +146,39 @@ public class MyProfile extends AppCompatActivity {
                 .placeholder(R.drawable.doctor)
                 .error(R.drawable.doctor)
                 .into(ivProfile);
+
+
+        Gson gson = new Gson();
+        String json = Prefs.getString(PREF_HOS_LIST, "");
+        Type type = new TypeToken<List<ModelHospitalList>>(){}.getType();
+        List<ModelHospitalList> listModel = gson.fromJson(json, type);
+
+        ArrayList<String> list = new ArrayList<>();
+        for (ModelHospitalList hModel : listModel) {
+            list.add(hModel.hospital_name);
+        }
+
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, list);
+        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
+        spHos.setAdapter(spinnerArrayAdapter);
+
+        String jsonDep = Prefs.getString(PREF_DEP_LIST, "");
+        Type typeDep = new TypeToken<List<ModelDepList>>(){}.getType();
+        List<ModelDepList> listModelDep = gson.fromJson(jsonDep, typeDep);
+
+        ArrayList<String> listDepName = new ArrayList<>();
+        for (ModelDepList dModel : listModelDep) {
+            list.add(dModel.department_name);
+        }
+
+        ArrayAdapter<String> spinnerArrayAdapterDep = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, listDepName);
+        spinnerArrayAdapterDep.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
+        spDep.setAdapter(spinnerArrayAdapterDep);
+
+
+
 
     }
 

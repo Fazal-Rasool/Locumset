@@ -2,6 +2,8 @@ package com.adaxiom.network;
 
 
 import com.adaxiom.locumset.BuildConfig;
+import com.adaxiom.models.ModelDepList;
+import com.adaxiom.models.ModelHospitalList;
 import com.adaxiom.models.ModelJobApply;
 import com.adaxiom.models.ModelJobList;
 import com.adaxiom.models.ModelLogin;
@@ -148,6 +150,16 @@ public class RetrofitConnector implements BackendConnector, BackendConnector.Gen
     @Override
     public Observable<ModelUpdateJob> UpdateShift(int jobid, String extraHours, String field1, String field2, String image) {
         return calls.UpdateJobShift(jobid, extraHours, field1, field2, image);
+    }
+
+    @Override
+    public Observable<List<ModelDepList>> GetDepList() {
+        return calls.GetDepList();
+    }
+
+    @Override
+    public Observable<List<ModelHospitalList>> GetHospitalList() {
+        return calls.GetHospitalList();
     }
 
 //    @Override

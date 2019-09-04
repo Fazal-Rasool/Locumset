@@ -13,16 +13,25 @@ import android.widget.Toast;
 
 import com.adaxiom.database.DatabaseHelper;
 import com.adaxiom.manager.DownloaderManager;
+import com.adaxiom.models.ModelDepList;
+import com.adaxiom.models.ModelHospitalList;
 import com.adaxiom.models.ModelLogin;
 import com.adaxiom.models.ModelRegister;
 import com.adaxiom.network.ApiCalls;
 import com.adaxiom.utils.SharedPrefrence;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.gson.Gson;
+import com.pixplicity.easyprefs.library.Prefs;
+
+import java.util.List;
 
 import rx.Subscriber;
 import rx.Subscription;
 import rx.schedulers.Schedulers;
+
+import static com.adaxiom.utils.Constants.PREF_DEP_LIST;
+import static com.adaxiom.utils.Constants.PREF_HOS_LIST;
 
 /**
  * A login screen that offers login via email/password.
@@ -224,9 +233,9 @@ public class Login extends AppCompatActivity {
                                         Toast.makeText(Login.this, "Login Successful", Toast.LENGTH_SHORT).show();
 //                        SharedPrefrenceStorage.INSTANCE.setIsLogin(Login.this, "1");
                                         SharedPrefrence.setIsLogin(Login.this, "1");
-                                        Intent intent = new Intent(Login.this, MainActivity.class);
-                                        startActivity(intent);
-                                        Login.this.finish();
+
+                                        API_GetHospitalList();
+
                                     } else {
                                         String message = modelLogin.Message;
                                         Toast.makeText(Login.this, message, Toast.LENGTH_SHORT).show();
@@ -276,6 +285,94 @@ public class Login extends AppCompatActivity {
 
 
     }
+
+
+
+
+    private void API_GetDepList() {
+            avLoading.setVisibility(View.VISIBLE);
+            getSubscription = DownloaderManager.getGeneralDownloader().GetDepList()
+                    .subscribeOn(Schedulers.newThread())
+                    .observeOn(Schedulers.newThread())
+                    .subscribe(new Subscriber<List<ModelDepList>>() {
+                        @Override
+                        public void onCompleted() {
+
+                        }
+                        @Override
+                        public void onError(final Throwable e) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    avLoading.setVisibility(View.GONE);
+                                    Toast.makeText(Login.this, e.toString(), Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        }
+                        @Override
+                        public void onNext(final List<ModelDepList> modelDepLists) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    avLoading.setVisibility(View.GONE);
+
+                                    Gson gson = new Gson();
+                                    String json = gson.toJson(modelDepLists);
+                                    Prefs.putString(PREF_DEP_LIST, json);
+
+                                    Intent intent = new Intent(Login.this, MainActivity.class);
+                                    startActivity(intent);
+                                    Login.this.finish();
+
+                                }
+                            });
+                        }
+                    });
+    }
+
+
+
+    private void API_GetHospitalList() {
+        avLoading.setVisibility(View.VISIBLE);
+        getSubscription = DownloaderManager.getGeneralDownloader().GetHospitalList()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(Schedulers.newThread())
+                .subscribe(new Subscriber<List<ModelHospitalList>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+                    @Override
+                    public void onError(final Throwable e) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                avLoading.setVisibility(View.GONE);
+                                Toast.makeText(Login.this, e.toString(), Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }
+                    @Override
+                    public void onNext(final List<ModelHospitalList> modelHospitalList) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                avLoading.setVisibility(View.GONE);
+
+                                Gson gson = new Gson();
+                                String json = gson.toJson(modelHospitalList);
+                                Prefs.putString(PREF_HOS_LIST, json);
+
+                                API_GetDepList();
+                            }
+                        });
+                    }
+                });
+    }
+
+
+
+
 
 
     public void gotoSignup(View view) {
