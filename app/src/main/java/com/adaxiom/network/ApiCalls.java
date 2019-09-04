@@ -118,41 +118,20 @@ public interface ApiCalls {
     Observable<List<ModelDepList>> GetDepList();
 
 
-
     @GET(API_HOSPITAL_LIST)
     Observable<List<ModelHospitalList>> GetHospitalList();
 
 
-
-
     @Multipart
     @POST("update_user_profile")
-    Observable<ModelRegister> UpdateMyProfile(@Part("user_id") int user_id,
-                                   @Part("phone_no") String phone,
-                                   @Part MultipartBody image_3
-
+    Observable<ModelJobApply> UpdateMyProfile(@Part("user_id") int user_id,
+                                              @Part("department_id") int depid,
+                                              @Part("hospital_id") int hosid,
+                                              @Part("hospital_member") String member,
+                                              @Part MultipartBody image_3,
+                                              @Part("field_1") String field1,
+                                              @Part("field_2") String field2
     );
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 //

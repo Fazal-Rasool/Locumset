@@ -16,12 +16,16 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.Toolbar;
 
 import com.adaxiom.database.DatabaseHelper;
+import com.adaxiom.manager.DownloaderManager;
 import com.adaxiom.models.ModelDepList;
 import com.adaxiom.models.ModelHospitalList;
+import com.adaxiom.models.ModelJobApply;
 import com.adaxiom.models.ModelUser;
+import com.adaxiom.network.ApiCalls;
 import com.adaxiom.utils.RuntimePermissions;
 import com.adaxiom.utils.SharedPrefrence;
 import com.google.gson.Gson;
@@ -30,11 +34,24 @@ import com.pixplicity.easyprefs.library.Prefs;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
+import rx.Subscriber;
+import rx.schedulers.Schedulers;
+
+import static com.adaxiom.utils.Constants.BASE_URL_LIVE;
 import static com.adaxiom.utils.Constants.PREF_DEP_LIST;
 import static com.adaxiom.utils.Constants.PREF_HOS_LIST;
 
@@ -280,6 +297,88 @@ public class MyProfile extends AppCompatActivity {
     }
 
 
+
+    public void API_UpdateProfile(){
+
+        MultipartBody body=null;
+
+//        avLoading.setVisibility(View.VISIBLE);
+        DownloaderManager.getGeneralDownloader().UpdateProfile(1,1,1,"Yes",null,"","")
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(Schedulers.newThread())
+                .subscribe(new Subscriber<ModelJobApply>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+                    @Override
+                    public void onError(final Throwable e) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+//                                avLoading.setVisibility(View.GONE);
+//                                Toast.makeText(Login.this, e.toString(), Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }
+                    @Override
+                    public void onNext(final ModelJobApply modelDepLists) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+//                                avLoading.setVisibility(View.GONE);
+
+                                Gson gson = new Gson();
+                                String json = gson.toJson(modelDepLists);
+                                Prefs.putString(PREF_DEP_LIST, json);
+
+//                                Intent intent = new Intent(Login.this, MainActivity.class);
+//                                startActivity(intent);
+//                                Login.this.finish();
+//
+                            }
+                        });
+                    }
+                });
+
+
+    }
+
+
+
+
+//    public void API_UpdateProfile(){
+//
+//        File file = new File("");
+//        MultipartBody body=null;
+//
+//        ApiCalls callInterface = getRetroClient().create(ApiCalls.class);
+//            Call<ModelJobApply> call = callInterface.UpdateMyProfile(1,1,1,"",body,"","");
+//
+//            call.enqueue(new Callback<ModelJobApply>() {
+//                @Override
+//                public void onResponse(Call<ModelJobApply> call, Response<ModelJobApply> response) {
+//                    ModelJobApply modelLogin = response.body();
+//                    if (!modelLogin.error) {
+//
+//
+//                    }                }
+//
+//                @Override
+//                public void onFailure(Call<ModelJobApply> call, Throwable t) {
+//
+//                }
+//            });
+//
+//
+//    }
+
+    public Retrofit getRetroClient(){
+        return  new Retrofit.Builder()
+                .baseUrl(BASE_URL_LIVE)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+    }
 
 
 

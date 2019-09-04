@@ -162,6 +162,11 @@ public class RetrofitConnector implements BackendConnector, BackendConnector.Gen
         return calls.GetHospitalList();
     }
 
+    @Override
+    public Observable<ModelJobApply> UpdateProfile(int userid, int hId, int dId, String mem, MultipartBody body, String field1, String field2) {
+        return calls.UpdateMyProfile(userid, hId, dId, mem, body, field1, field2);
+    }
+
 //    @Override
 //    public Observable<RM_MatchPrediction> PostMatchPrediction(String userId,
 //                                                              String matchId,

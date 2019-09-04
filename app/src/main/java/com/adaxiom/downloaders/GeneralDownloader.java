@@ -329,6 +329,44 @@ public class GeneralDownloader extends BaseContentDownloader<BackendConnector.Ge
     }
 
 
+
+    public Observable<ModelJobApply> UpdateProfile(final int userid,
+                                                   final int hid,
+                                                   final int did,
+                                                   final String mem,
+                                                   final MultipartBody body,
+                                                   final String field1,
+                                                  final String field2) {
+
+        return Observable.create(new Observable.OnSubscribe<ModelJobApply>() {
+            @Override
+            public void call(final Subscriber<? super ModelJobApply> subscriber) {
+                beConnector.UpdateProfile(userid, hid, did, mem, body, field1, field2)
+                        .subscribeOn(Schedulers.newThread())
+                        .observeOn(Schedulers.newThread())
+                        .subscribe(new Subscriber<ModelJobApply>() {
+                            @Override
+                            public void onCompleted() {
+                                subscriber.onCompleted();
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                subscriber.onError(e);
+                            }
+
+                            @Override
+                            public void onNext(ModelJobApply authResponse) {
+                                subscriber.onNext(authResponse);
+                            }
+                        });
+            }
+        });
+    }
+
+
+
+
 //    public Observable<List<RM_MatchActive>> API_MatchActive() {
 //
 //        return Observable.create(new Observable.OnSubscribe<List<RM_MatchActive>>() {
