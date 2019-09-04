@@ -95,28 +95,10 @@ public class MyProfile extends AppCompatActivity {
         setViews();
         setValues();
 
+        API_UpdateProfile();
+
     }
 
-
-    //    @Override
-//    public View onCreate(LayoutInflater inflater, ViewGroup container,
-//                             Bundle savedInstanceState) {
-//        view = inflater.inflate(R.layout.fragment_my_profile_new, container, false);
-//
-//
-//        createObjects();
-//        setViews();
-//        setValues();
-//
-//        return view;
-//    }
-
-
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        Toast.makeText(getActivity(), "Call", Toast.LENGTH_SHORT).show();
-//    }
 
     public void setViews() {
 
@@ -326,16 +308,8 @@ public class MyProfile extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-//                                avLoading.setVisibility(View.GONE);
 
-                                Gson gson = new Gson();
-                                String json = gson.toJson(modelDepLists);
-                                Prefs.putString(PREF_DEP_LIST, json);
-
-//                                Intent intent = new Intent(Login.this, MainActivity.class);
-//                                startActivity(intent);
-//                                Login.this.finish();
-//
+                                Toast.makeText(MyProfile.this, modelDepLists.message,Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
