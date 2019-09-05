@@ -128,7 +128,7 @@ public interface ApiCalls {
                                               @Part("department_id") int depid,
                                               @Part("hospital_id") int hosid,
                                               @Part("hospital_member") String member,
-                                              @Part MultipartBody image_3,
+                                              @Part MultipartBody.Part image_3,
                                               @Part("field_1") String field1,
                                               @Part("field_2") String field2
     );

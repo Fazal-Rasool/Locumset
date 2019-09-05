@@ -103,16 +103,16 @@ public class RA_MyShifts extends RecyclerView.Adapter<RA_MyShifts.ViewHolder> {
         viewHolder.tvDep.setText(list.get(position).department);
 
         if(list.get(position).status == 0){
-            viewHolder.panel.setBackgroundResource( R.drawable.border_my_shift_pending);
+            viewHolder.panel.setBackgroundResource( R.drawable.shift_pending);
             viewHolder.tvLable.setBackgroundResource(R.drawable.lable_pending);
             viewHolder.tvLable.setText("Pending");
         }else if(list.get(position).status==1){
-            viewHolder.panel.setBackgroundResource( R.drawable.border_my_shift);
+            viewHolder.panel.setBackgroundResource( R.drawable.shift_approved);
             viewHolder.tvLable.setBackgroundResource(R.drawable.lable_approved);
             viewHolder.tvLable.setText("Approved");
 
         }else if(list.get(position).status==3){
-            viewHolder.panel.setBackgroundResource( R.drawable.border_my_shift_cancel);
+            viewHolder.panel.setBackgroundResource( R.drawable.shift_cancel);
             viewHolder.tvLable.setBackgroundResource(R.drawable.lable_cancel);
             viewHolder.tvLable.setText("Canceled");
 

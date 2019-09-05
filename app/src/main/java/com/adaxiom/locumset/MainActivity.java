@@ -20,6 +20,9 @@ import com.adaxiom.fragments.FragAllJobs;
 import com.adaxiom.fragments.FragMyShifts;
 import com.adaxiom.fragments.FragMyProfile;
 import com.adaxiom.utils.SharedPrefrence;
+import com.pixplicity.easyprefs.library.Prefs;
+
+import static com.adaxiom.utils.Constants.PREF_COMPLETE_PROFILE;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -122,6 +125,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_logout:
 //                SharedPrefrenceStorage.INSTANCE.setIsLogin(MainActivity.this, "0");
                 SharedPrefrence.setIsLogin(MainActivity.this, "0");
+                Prefs.putString(PREF_COMPLETE_PROFILE, "0");
                 startActivity(new Intent(MainActivity.this, Login.class));
                 this.finish();
                 break;

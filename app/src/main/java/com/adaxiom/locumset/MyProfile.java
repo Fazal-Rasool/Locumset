@@ -40,6 +40,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -52,6 +53,7 @@ import rx.Subscriber;
 import rx.schedulers.Schedulers;
 
 import static com.adaxiom.utils.Constants.BASE_URL_LIVE;
+import static com.adaxiom.utils.Constants.PREF_COMPLETE_PROFILE;
 import static com.adaxiom.utils.Constants.PREF_DEP_LIST;
 import static com.adaxiom.utils.Constants.PREF_HOS_LIST;
 
@@ -72,6 +74,8 @@ public class MyProfile extends AppCompatActivity {
     android.support.v4.app.FragmentTransaction mFragmentTransaction;
 
     Spinner spDep, spHos;
+
+    private View avLoading;
 
     static String imagePath="";
 
@@ -95,7 +99,6 @@ public class MyProfile extends AppCompatActivity {
         setViews();
         setValues();
 
-        API_UpdateProfile();
 
     }
 
@@ -107,6 +110,7 @@ public class MyProfile extends AppCompatActivity {
         spDep = findViewById(R.id.spDep_MyProfile);
         spHos = findViewById(R.id.spHospital_MyProfile);
         ivProfile = (ImageView) findViewById(R.id.iv_myProfile);
+        avLoading = findViewById(R.id.avLoadingView);
 
         ivProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,6 +120,14 @@ public class MyProfile extends AppCompatActivity {
                 } else {
                     RuntimePermissions.requestPermission(MyProfile.this);
                 }
+            }
+        });
+
+
+        findViewById(R.id.btnUpdateProfile).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                API_UpdateProfile();
             }
         });
 
@@ -181,12 +193,6 @@ public class MyProfile extends AppCompatActivity {
 
     }
 
-
-//    public void loadFragment(Fragment fragment) {
-//        mFragmentManager = getFragmentManager();
-//        mFragmentTransaction = mFragmentManager.beginTransaction();
-//        mFragmentTransaction.replace(R.id.conMyProfile, fragment).commit();
-//    }
 
 
     public void showBottomDialog() {
@@ -282,10 +288,15 @@ public class MyProfile extends AppCompatActivity {
 
     public void API_UpdateProfile(){
 
-        MultipartBody body=null;
+        File file = new File(imagePath);
 
-//        avLoading.setVisibility(View.VISIBLE);
-        DownloaderManager.getGeneralDownloader().UpdateProfile(1,1,1,"Yes",null,"","")
+//        RequestBody fileReqBody = RequestBody.create(MediaType.parse("image/*"), file);
+
+        // Create MultipartBody.Part using file request-body,file name and part name
+        MultipartBody.Part part = MultipartBody.Part.createFormData("image_1", file.getName());
+
+        avLoading.setVisibility(View.VISIBLE);
+        DownloaderManager.getGeneralDownloader().UpdateProfile(1,1,1,"Yes",part,"","")
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(Schedulers.newThread())
                 .subscribe(new Subscriber<ModelJobApply>() {
@@ -298,8 +309,8 @@ public class MyProfile extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-//                                avLoading.setVisibility(View.GONE);
-//                                Toast.makeText(Login.this, e.toString(), Toast.LENGTH_LONG).show();
+                                avLoading.setVisibility(View.GONE);
+                                Toast.makeText(MyProfile.this, e.toString(), Toast.LENGTH_LONG).show();
                             }
                         });
                     }
@@ -308,8 +319,13 @@ public class MyProfile extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-
+                                avLoading.setVisibility(View.GONE);
                                 Toast.makeText(MyProfile.this, modelDepLists.message,Toast.LENGTH_SHORT).show();
+
+                                if(!modelDepLists.error) {
+                                    Prefs.putString(PREF_COMPLETE_PROFILE, "1");
+                                    MyProfile.this.finish();
+                                }
                             }
                         });
                     }

@@ -163,7 +163,7 @@ public class RetrofitConnector implements BackendConnector, BackendConnector.Gen
     }
 
     @Override
-    public Observable<ModelJobApply> UpdateProfile(int userid, int hId, int dId, String mem, MultipartBody body, String field1, String field2) {
+    public Observable<ModelJobApply> UpdateProfile(int userid, int hId, int dId, String mem, MultipartBody.Part body, String field1, String field2) {
         return calls.UpdateMyProfile(userid, hId, dId, mem, body, field1, field2);
     }
 

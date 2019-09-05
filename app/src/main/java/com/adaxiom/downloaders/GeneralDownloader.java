@@ -334,7 +334,7 @@ public class GeneralDownloader extends BaseContentDownloader<BackendConnector.Ge
                                                    final int hid,
                                                    final int did,
                                                    final String mem,
-                                                   final MultipartBody body,
+                                                   final MultipartBody.Part body,
                                                    final String field1,
                                                   final String field2) {
 

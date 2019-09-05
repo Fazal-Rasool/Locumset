@@ -48,7 +48,7 @@ public interface BackendConnector {
 
         Observable<List<ModelHospitalList>> GetHospitalList();
 
-        Observable<ModelJobApply> UpdateProfile(int userid, int hId, int dId, String mem, MultipartBody body, String field1, String field2);
+        Observable<ModelJobApply> UpdateProfile(int userid, int hId, int dId, String mem, MultipartBody.Part body, String field1, String field2);
 
 
 

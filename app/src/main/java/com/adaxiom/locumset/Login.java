@@ -2,6 +2,7 @@ package com.adaxiom.locumset;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.adaxiom.database.DatabaseHelper;
@@ -19,6 +21,8 @@ import com.adaxiom.models.ModelLogin;
 import com.adaxiom.models.ModelRegister;
 import com.adaxiom.network.ApiCalls;
 import com.adaxiom.utils.SharedPrefrence;
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
@@ -44,9 +48,12 @@ public class Login extends AppCompatActivity {
     String email_str, password_str;
     String token = "";
 
+    boolean isTrue = true;
+
     DatabaseHelper dbHelper;
 
     private Subscription getSubscription;
+    ImageView ivLogo;
 
     private View avLoading;
 
@@ -59,6 +66,7 @@ public class Login extends AppCompatActivity {
         getFirebaseToken();
         createObject();
         setViews();
+        setLogoAnimation();
 
 
     }
@@ -82,6 +90,7 @@ public class Login extends AppCompatActivity {
         email = (EditText) findViewById(R.id.login_email);
         password = (EditText) findViewById(R.id.password_login);
         login = (Button) findViewById(R.id.button_login);
+        ivLogo = findViewById(R.id.ivLogo);
         avLoading = (View) findViewById(R.id.avLoadingView);
 
         findViewById(R.id.btnLogin).setOnClickListener(new OnClickListener() {
@@ -287,49 +296,48 @@ public class Login extends AppCompatActivity {
     }
 
 
-
-
     private void API_GetDepList() {
-            avLoading.setVisibility(View.VISIBLE);
-            getSubscription = DownloaderManager.getGeneralDownloader().GetDepList()
-                    .subscribeOn(Schedulers.newThread())
-                    .observeOn(Schedulers.newThread())
-                    .subscribe(new Subscriber<List<ModelDepList>>() {
-                        @Override
-                        public void onCompleted() {
+        avLoading.setVisibility(View.VISIBLE);
+        getSubscription = DownloaderManager.getGeneralDownloader().GetDepList()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(Schedulers.newThread())
+                .subscribe(new Subscriber<List<ModelDepList>>() {
+                    @Override
+                    public void onCompleted() {
 
-                        }
-                        @Override
-                        public void onError(final Throwable e) {
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    avLoading.setVisibility(View.GONE);
-                                    Toast.makeText(Login.this, e.toString(), Toast.LENGTH_LONG).show();
-                                }
-                            });
-                        }
-                        @Override
-                        public void onNext(final List<ModelDepList> modelDepLists) {
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    avLoading.setVisibility(View.GONE);
+                    }
 
-                                    Gson gson = new Gson();
-                                    String json = gson.toJson(modelDepLists);
-                                    Prefs.putString(PREF_DEP_LIST, json);
+                    @Override
+                    public void onError(final Throwable e) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                avLoading.setVisibility(View.GONE);
+                                Toast.makeText(Login.this, e.toString(), Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }
 
-                                    Intent intent = new Intent(Login.this, MainActivity.class);
-                                    startActivity(intent);
-                                    Login.this.finish();
+                    @Override
+                    public void onNext(final List<ModelDepList> modelDepLists) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                avLoading.setVisibility(View.GONE);
 
-                                }
-                            });
-                        }
-                    });
+                                Gson gson = new Gson();
+                                String json = gson.toJson(modelDepLists);
+                                Prefs.putString(PREF_DEP_LIST, json);
+
+                                Intent intent = new Intent(Login.this, MainActivity.class);
+                                startActivity(intent);
+                                Login.this.finish();
+
+                            }
+                        });
+                    }
+                });
     }
-
 
 
     private void API_GetHospitalList() {
@@ -342,6 +350,7 @@ public class Login extends AppCompatActivity {
                     public void onCompleted() {
 
                     }
+
                     @Override
                     public void onError(final Throwable e) {
                         runOnUiThread(new Runnable() {
@@ -352,6 +361,7 @@ public class Login extends AppCompatActivity {
                             }
                         });
                     }
+
                     @Override
                     public void onNext(final List<ModelHospitalList> modelHospitalList) {
                         runOnUiThread(new Runnable() {
@@ -371,13 +381,33 @@ public class Login extends AppCompatActivity {
     }
 
 
-
-
-
-
     public void gotoSignup(View view) {
         Intent intent = new Intent(Login.this, Register.class);
         startActivity(intent);
+
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+
+
+    }
+
+    public void setLogoAnimation() {
+
+        final Handler mHandler = new Handler();
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+
+                    YoYo.with(Techniques.Pulse).playOn(ivLogo);
+                    mHandler.postDelayed(this, 2500);
+            }
+        };
+        runnable.run();
 
     }
 
